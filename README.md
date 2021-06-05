@@ -2,14 +2,14 @@
 
 ## To do list
 
-- [-] Vector
+- [o] Vector
     - [x] member types
-    - [-] member functions
-    - [-] non-member functions
-- [-] List
-- [-] Map
-- [-] Stack
-- [-] Queue
+    - [o] member functions
+    - [o] non-member functions
+- [o] List
+- [o] Map
+- [o] Stack
+- [o] Queue
 
 ## Documentation
 
