@@ -6,7 +6,7 @@ OBJ_DIR = ./obj
 
 SRC = main.cpp
 vpath %.cpp $(SRC_DIR)
-INC = list.hpp vector.hpp map.hpp stack.hpp queue.hpp
+INC = Vector.hpp iterator.hpp
 vpath %.hpp $(INC_DIR)
 OBJ = $(addprefix  $(OBJ_DIR)/,$(SRC:%.cpp=%.o))
 vpath %.cpp $(SRC_DIR)
