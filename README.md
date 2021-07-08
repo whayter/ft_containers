@@ -2,7 +2,7 @@
 
 ## To do list
 
-- [ ] Vector
+- [x] vector
     - [x] member types
         - [x] value_type
         - [x] allocator_type
@@ -16,7 +16,7 @@
         - [x] const_reverse_iterator
         - [x] difference_type
         - [x] size_type
-    - [ ] member functions
+    - [x] member functions
         - [x] default constructor
         - [x] fill constructor
         - [x] range constructor
@@ -35,32 +35,51 @@
             - [x] capacity
             - [x] empty
             - [x] reserve
-        - [ ] element access
+        - [x] element access
             - [x] operator[]
             - [x] at
             - [x] front
             - [x] back
-        - [ ] modifiers
-            - [ ] assign
+        - [x] modifiers
+            - [x] assign
             - [x] push_back
             - [x] pop_back
-            - [ ] insert
+            - [x] insert
             - [x] erase
-            - [ ] swap
-            - [ ] clear
-    - [ ] non-member functions
-        - [ ] relational operators
-            - [ ] operator==
-            - [ ] operator=!
-            - [ ] operator<
-            - [ ] operator<=
-            - [ ] operator>
-            - [ ] operator>=
-        - [ ] swap
-- [ ] List
-- [ ] Map
-- [ ] Stack
-- [ ] Queue
+            - [x] swap
+            - [x] clear
+    - [x] non-member functions
+        - [x] relational operators
+            - [x] operator==
+            - [x] operator=!
+            - [x] operator<
+            - [x] operator<=
+            - [x] operator>
+            - [x] operator>=
+        - [x] swap
+- [ ] map
+- [x] stack
+    - [x] member types
+        - [x] value_type
+        - [x] container_type
+        - [x] size_type
+    - [x] member functions
+        - [x] constructor
+        - [x] empty
+        - [x] size
+        - [x] top
+        - [x] const top
+        - [x] push
+        - [x] pop
+    - [x] non-member functions
+        - [x] relational operators
+            - [x] operator==
+            - [x] operator=!
+            - [x] operator<
+            - [x] operator<=
+            - [x] operator>
+            - [x] operator>=
+
 
 ## Documentation
 
