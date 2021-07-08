@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/08 07:13:30 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/08 13:48:39 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,9 @@ namespace ft
 
 			template <class InputIterator>
          	vector(InputIterator first, InputIterator last,
-				const allocator_type& alloc = allocator_type())
+				const allocator_type& alloc = allocator_type(),	 
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
+				InputIterator>::type* = NULL)
 			:
 				_alloc(alloc)
 			{
@@ -474,7 +476,9 @@ namespace ft
 	/* --- Modifiers -------------------------------------------------------- */
 
 			template <class InputIterator>
-			void assign(InputIterator first, InputIterator last)
+			void assign(InputIterator first, InputIterator last,
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
+				InputIterator>::type* = NULL)
 			{
 				this->clear();
 				this->reserve(ft::distance(first, last));
@@ -524,7 +528,9 @@ namespace ft
 			}
 
 			template <class InputIterator>
-    		void insert(iterator pos, InputIterator first, InputIterator last)
+    		void insert(iterator pos, InputIterator first, InputIterator last,
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
+				InputIterator>::type* = NULL)
 			{
 				size_type n = ft::distance(first, last);
 				size_type index = ft::distance(this->begin(), pos);
