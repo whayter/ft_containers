@@ -83,9 +83,9 @@
 
 ## Documentation
 
-[subject](https://cdn.intra.42.fr/pdf/pdf/23886/fr.subject.pdf)
+[subject](https://cdn.intra.42.fr/pdf/pdf/26105/en.subject.pdf) | [main exemple](https://projects.intra.42.fr/uploads/document/document/4165/main.cpp)
 
-[list](https://www.cplusplus.com/reference/list/list/?kw=list) | [vector](https://www.cplusplus.com/reference/vector/vector/?kw=vector) | [map](https://www.cplusplus.com/reference/map/map/?kw=map) | [stack](https://www.cplusplus.com/reference/stack/stack/?kw=stack) | [queue](https://www.cplusplus.com/reference/queue/queue/?kw=queue)
+[vector](https://www.cplusplus.com/reference/vector/vector/?kw=vector) | [map](https://www.cplusplus.com/reference/map/map/?kw=map) | [stack](https://www.cplusplus.com/reference/stack/stack/?kw=stack)
 
 https://accu.org/journals/overload/9/43/frogley_442/
 
