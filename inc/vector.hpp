@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/08 13:48:39 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/14 18:05:39 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ namespace ft
 			}
 	};
 
-	/* ---------------------------------------------------------------------------- */
+	/* ---------------------------------------------------------------------- */
 	/* --- non-member function overloads (vectorIterator) ------------------- */
 
     template <class T, class Category>
@@ -272,20 +272,11 @@ namespace ft
 		public:
 
 			vector(const allocator_type& alloc = allocator_type())
-			:
-				_alloc(alloc),
-				_container(NULL),
-				_size(0),
-				_capacity(0)
-			{}
+			: _alloc(alloc), _container(NULL), _size(0), _capacity(0) {}
 
 			vector(size_type n, const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
-			:
-				_alloc(alloc),
-				_container(_alloc.allocate(n)),
-				_size(n),
-				_capacity(n)
+			: _alloc(alloc), _container(_alloc.allocate(n)), _size(n), _capacity(n)
 			{	
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(_container + i, val);
@@ -296,8 +287,7 @@ namespace ft
 				const allocator_type& alloc = allocator_type(),	 
 				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
 				InputIterator>::type* = NULL)
-			:
-				_alloc(alloc)
+			: _alloc(alloc)
 			{
 				_size = ft::distance(first, last);
 				_container = _alloc.allocate(_size);
