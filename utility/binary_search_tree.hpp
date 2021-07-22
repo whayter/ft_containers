@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/22 14:16:36 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/23 01:12:17 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,28 @@
 
 # include "utility.hpp"
 
-
-/*-----------------------------------------------------------------------------/
-
-						10
-				       /  \
-				  	  /    \
-				 	 5	    16
-					/ \	   /  \
-			   	   3   8  12   18
-					  		  /	 \
-							17    20
-
-/---------------------------------------------------------------------------- */
-
+/*--------------------------------------------------------------------------- */
+/*                                                                            */
+/*                            ----- head ------                               */
+/*                                                                            */                                                                     
+/*         			head						  min						  */
+/*					  |							    |						  */
+/*		   	        head -- null				  head -- root  			  */
+/*		   			  |								|						  */
+/*		   			head						  max						  */
+/*                                                                            */
+/*                                                                            */
+/*                           --- tree exemple ---                             */
+/*                                                                            */
+/*                               100 (root)                                   */
+/*                              /	\                                         */
+/*                             /	 \                                        */
+/*                            /      200                                      */
+/*                           /      /   \                                     */
+/*                          /     150  	220                                   */
+/*                         50                                   			  */
+/*                                                                            */
+/*--------------------------------------------------------------------------- */
 
 namespace ft
 {
@@ -81,6 +89,15 @@ namespace ft
 		bool operator==(const mapNode& x)
 		{
 			return value == x.value;
+		}
+
+		bool is_leaf(std::string side)
+		{
+			pointer n = (side == "left" ? left : right);
+			
+			if (value == n->value)
+				return true;
+			return false;
 		}
 	};
 
@@ -156,12 +173,14 @@ namespace ft
 
 			mapIterator& operator++()
 			{
-				if (_node == _head->right)
+				if (_node == _head)
+					_node = _head->right;
+				else if (_node == _head->right)
 					_node = _head;
 				else if (_node->right != _node)
 				{
 					_node = _node->right;
-					while (_node->left)
+					while (_node->left != _node)
 						_node = _node->left;
 				}
 				else
@@ -183,17 +202,19 @@ namespace ft
 
 			mapIterator& operator--()
 			{
-				if (_node == _head-> left)
-					return *this;
-				if (_node->left != _node)
+				if (_node == _head)
+					_node = _head->right;
+				else if (_node->left != _node)
 				{
 					_node = _node->left;
-					while (_node->right)
+					while (_node->right != _node)
 						_node = _node->right;
 				}
 				else
 				{
 					while (_node == _node->parent->left)
+						_node = _node->parent;
+					if (_node->parent)
 						_node = _node->parent;
 				}
 				return *this;
@@ -257,19 +278,7 @@ namespace ft
 				_alloc.destroy(_head);
 				_alloc.deallocate(_head, 1);
 			}
-
-		/* --- Capacity ----------------------------------------------------- */
-
-			bool empty() const
-			{
-				return _size == 0;
-			}
-
-			size_type size() const
-			{
-				return _size;
-			}
-
+		
 		/* --- Iterators ---------------------------------------------------- */
 
 			iterator begin()
@@ -289,51 +298,31 @@ namespace ft
 
 			const_iterator end() const
 			{
-				return iterator(_head, _head);
+				return const_iterator(_head, _head);
 			}
 
-			iterator lower_bound(const key_type& key)
+			iterator find(const key_type& key)
 			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-				{
-					if (!_comp((*it).first, key))
-						return it;
-				}
-				return end();
+				node_type* node = this->_search(this->root(), key);
+				return iterator(node, _head);
 			}
 
-			const_iterator lower_bound(const key_type& key) const
+			const_iterator find(const key_type& key) const
 			{
-				for (const_iterator it = this->begin(); it != this->end(); it++)
-				{
-					if (!_comp((*it).first, key))
-						return it;
-				}
-				return this->end();
+				node_type* node = this->_search(this->root(), key);
+				return const_iterator(node, _head);
 			}
 
-			iterator upper_bound(const key_type& key)
+		/* --- Capacity ----------------------------------------------------- */
+
+			bool empty() const
 			{
-				for (iterator it = this->begin(); it != this->end(); it++)
-				{
-					if (!_comp((*it).first, key) && !_comp(key, (*it).first))
-						return ++it;
-					else
-						return it;
-				}
-				return this->end();
+				return _size == 0;
 			}
 
-			iterator upper_bound(const key_type& key) const
+			size_type size() const
 			{
-				for (const_iterator it = this->begin(); it != this->end(); it++)
-				{
-					if (!_comp((*it).first, key) && !_comp(key, (*it).first))
-						return ++it;
-					else
-						return it;
-				}
-				return this->end();
+				return _size;
 			}
 
 		/* --- Element access ----------------------------------------------- */
@@ -342,33 +331,96 @@ namespace ft
 			{
 				return _head->parent;
 			}
-			
-			node_type* head() const							// utile ?
+
+		/* --- Modifiers ---------------------------------------------------- */
+
+			ft::pair<iterator, bool> insert(value_type pair)
 			{
-				return _head;
+				node_type* cursor = this->_find_insert_position(pair);
+				node_type* new_node;
+
+				if (this->empty())
+				{
+					new_node = _alloc.allocate(1);
+					_alloc.construct(new_node, pair);
+					_head->parent = new_node;
+					_head->left = new_node;
+					_head->right = new_node;
+					new_node->right = new_node;
+					new_node->left = new_node;
+				}
+				else if (!cursor)
+					return ft::make_pair(iterator(_head, _head), false);
+				else
+				{
+					new_node = _alloc.allocate(1);
+					_alloc.construct(new_node, pair);
+					new_node->parent = cursor;
+					new_node->left = new_node;
+					new_node->right = new_node;			
+					if (_comp(cursor->value.first, pair.first))
+					{
+						cursor->right = new_node;
+						if (_comp(_head->right->value.first, pair.first))
+							_head->right = new_node;
+					}
+					else
+					{
+						cursor->left = new_node;
+						if (_comp(pair.first, _head->left->value.first))
+							_head->left = new_node;
+					}
+				}
+				_size++;
+				return ft::make_pair(iterator(new_node, _head), true);
 			}
 
+			// void erase_node(node_type* to_remove)
+			// {
+			// 	if (!to_remove || to_remove == _head)
+			// 		return ;
+	
+			// 	else if (to_remove == this->root())
+			// 	{
+			// 		if ()
+			// 		_header->parent =
+			// 	}
+			// 	else if (to_remove->is_leaf())
+			// 	{
+					
+			// 	}
+			// 	else
+			// 	{
+					
+			// 	}
 
-			node_type *search(node_type *root, key_type key)
+
+			// 	if (n->is_leaf())
+			// 	{
+			// 		if (_comp(n->value.first, n->parent->value.first))
+			// 		n->parent->left = n->parent;
+			// 	}
+			// }
+
+
+		/* --- private member functions ------------------------------------- */
+
+		private:
+
+			node_type* _search(node_type *root, key_type key)
 			{
-				if (!root || root->value.first == key)
-       				return root;
+				if (!root || root == _head)
+					return _head;
+				if (root->value.first == key)
+					return root;
+				if (root == _head->right)
+					return _head;
 				if (_comp(root->value.first, key))
-					return find_rec(root->right, key);
-       			return search(root->right, key);
+					return _search(root->right, key);
+				return _search(root->left, key);
 			}
 
-/*
-						10
-				       /  \
-				  	  /    \
-				 	 5	    16
-					/ \	   /  \
-			   	   3   8  12   18
-					  		  /	 \
-							17    20
-*/
-			node_type* find_insert_position(value_type& pair)
+			node_type* _find_insert_position(value_type& pair)
 			{
 				if (this->empty())
 					return NULL;
@@ -379,14 +431,14 @@ namespace ft
 						return NULL;										// retourner cursor ?
 					else if (_comp(pair.first, cursor->value.first))
 					{
-						if (cursor->left != cursor)							// check if leaf... working ?
+						if (cursor->is_leaf("left"))
 							break ;
 						else
 							cursor = cursor->left;
 					}
 					else
 					{
-						if (cursor->right != cursor)						// check if leaf... working ?
+						if (cursor->is_leaf("right"))
 							break ;
 						else
 							cursor = cursor->right;
@@ -394,342 +446,6 @@ namespace ft
 				}
 				return cursor;
 			}
-
-		/* --- Modifiers ---------------------------------------------------- */
-
-			ft::pair<iterator, bool> insert(value_type pair)
-			{
-				node_type* cursor = this->find_insert_position(pair);
-				node_type* new_node;
-
-				if (this->empty())
-				{
-					new_node = _alloc.allocate(1);
-					_alloc.construct(new_node, pair);
-					_head->parent = new_node;
-					_head->left = new_node;
-					_head->right = new_node;
-				}
-				else if (!cursor)
-					return ft::make_pair(iterator(_head, _head), false);
-				else
-				{
-					std::cout << "insert position found: " << cursor->value.first << " | " << cursor->value.second << std::endl;
-					new_node = _alloc.allocate(1);
-					_alloc.construct(new_node, pair);
-					new_node->parent = cursor;
-					new_node->left = new_node;
-					new_node->right = new_node;
-					
-					if (_comp(cursor->value.first, pair.first))
-					{
-						cursor->right = new_node;
-						if (cursor == _head->right)
-							_head->right = new_node;
-					}
-					else
-					{
-						cursor->left = new_node;
-						if (cursor == _head->left)
-							_head->left = new_node;
-					}
-				}
-				_size++;
-				return ft::make_pair(iterator(new_node, _head), true);
-			}
-
-
-
-
-			// ft::pair<iterator, bool> insert(value_type pair)
-			// {
-			// 	node_type* new_node;
-
-			// 	if (this->root())												// MAP IS NOT EMPTY
-			// 	{
-			// 		node_type* cursor = this->begin().base();
-			// 		while (cursor != this->end().base())						// FIND INSERT POSITION
-			// 		{
-			// 			if (pair.first == cursor->value.first)
-			// 				return ft::make_pair(iterator(_head, _head), false);
-			// 			else if (_comp(pair.first, cursor->value.first))
-			// 			{
-			// 				if (cursor->left != cursor)							// check if leaf... working ?
-			// 					break ;
-			// 				else
-			// 					cursor = cursor->left;
-			// 			}
-			// 			else
-			// 			{
-			// 				if (cursor->right  != cursor)						// check if leaf... working ?
-			// 					break ;
-			// 				else
-			// 					cursor = cursor->right;
-			// 			}
-			// 		}
-			// 	}
-			// 	else															// MAP IS EMPTY
-			// 	{
-			// 		new_node = _alloc.allocate(1);
-			// 		_alloc.construct(new_node, pair);
-			// 		_head->parent = new_node;
-			// 		_head->left = new_node;
-			// 		_head->right = new_node;
-			// 	}
-				
-			// 	new_node = _alloc.allocate(1);
-			// 	_alloc.construct(new_node, pair);
-			// 	new_node->parent = cursor;
-			// 	new_node->left = new_node;
-			// 	new_node->right = new_node;
-				
-			// 	if (_comp(cursor->value.first, pair.first))
-			// 		cursor->right = new_node;
-			// 	else
-			// 		cursor->left = new_node;
-			// 	_size++;
-			// 	return ft::make_pair(iterator(new_node, _head), true);
-			// }
-
-
-
-
-
-
-
-
-				// if (!this->root())
-				// {
-				// 	std::cout << "[0] Ajout d'un nouveau noeud...\n";
-				// 	new_node = _alloc.allocate(1);
-				// 	_alloc.construct(new_node, pair);
-				// 	_head->parent = new_node;
-				// 	_head->left = new_node;
-				// 	_head->right = new_node;
-				// }
-				/* ----- TOUT CE QUI PRÉCÈDE SEMBLE BON ----- */
-
-/*
-						10
-				       /  \
-				  	  /    \
-				 	 5	    16
-					/ \	   /  \
-			   	   3   8  12   18
-					  		  /	 \
-							17    20
-*/
-				
-				// else
-				// {
-				// 	//node_type* cursor = this->begin().base();
-				// 	node_type* cursor = this->root();
-
-				// 	std::cout << "[1] Ajout d'un nouveau noeud...\n";
-
-
-
-
-
-				// 	/* ça plante dans cette boucle while. revoir les conditions.
-				// 	   bien revoir les liens de parenté entre les nodes.
-				// 	*/
-
-				// 	while (cursor != this->end().base())
-				// 	{
-				// 		if (pair.first == cursor->value.first)
-				// 		{
-				// 			std::cout << " doublon!\n";
-				// 			return ft::make_pair(iterator(_head, _head), false);
-				// 		}
-
-				// 		std::cout << "  ---\n";
-
-				// 		if (_comp(pair.first, cursor->value.first))
-				// 		{
-				// 			if (cursor->left != cursor)							// check if leaf... working ?
-				// 			{
-				// 				//cursor->left = new_node;
-				// 				break ;
-				// 			}
-				// 			else
-				// 				cursor = cursor->left;
-				// 		}
-				// 		else
-				// 		{
-				// 			if (cursor->right  != cursor)				// check if leaf... working ?
-				// 			{
-				// 				//cursor->right = new_node;
-				// 				break ;
-				// 			}
-				// 			else
-				// 				cursor = cursor->right;
-				// 		}
-				// 		std::cout << "  ---\n";
-				// 	}
-
-
-
-
-					
-					// while (1)
-					// {
-					// 	if (pair.first == cursor->value.first)
-					// 		return ft::make_pair(iterator(_head, _head), false);
-						
-					// 	if (_comp(pair.first, cursor->value.first))
-					// 	{
-					// 		if (cursor->left == cursor)				// check if leaf... working ?
-					// 		{
-					// 			cursor->left = new_node;
-					// 			break ;
-					// 		}
-					// 		else
-					// 			cursor = cursor->left;
-					// 	}
-					// 	else
-					// 	{
-					// 		if (cursor->right == cursor)				// check if leaf... working ?
-					// 		{
-					// 			cursor->right = new_node;
-					// 			break ;
-					// 		}
-					// 		else
-					// 			cursor = cursor->right;
-					// 	}
-					// }
-					
-					
-		
-					
-
-					// iterator it(this->begin().base(), _head);
-					// iterator next = it++;
-					// while (next.base() != _head &&
-					// 	_comp(next.base()->value.first, pair.first))
-					// {
-					// 	it++;
-					// 	next++;
-					// }
-
-				/* ----- TOUT CE QUI SUIT SEMBLE BON ----- */
-					
-					// if (pair.first == it.base()->value.first)
-					// 	return ft::make_pair(iterator(_head, _head), false);
-					// new_node = _alloc.allocate(1);
-					// _alloc.construct(new_node, pair);
-					// new_node->parent = it.base();
-					// new_node->parent = cursor;
-					// new_node->left = new_node;
-					// new_node->right = new_node;
-
-
-				/* x- ajout -x */
-
-					// if (_comp(cursor->value.first, pair.first))
-					// 	cursor->right = new_node;
-					// else
-					// 	cursor->left = new_node;
-
-
-				/* x---------x */
-
-					// if (_comp(it.base()->value.first, pair.first))
-					// 	it.base()->right = new_node;
-					// else
-					// 	it.base()->left = new_node;
-			// 	}
-			// 	_size++;
-
-			// 	std::cout << "  done.\n";
-
-			// 	return ft::make_pair(iterator(new_node, _head), true);
-			// }
-
-
-
-
-					// while (it.base()->left != it.base()->right)						// really ?
-					// {
-					// 	key_type key = it.base()->value.first;
-
-					// 	if (pair.first == key)										// if entry already exists
-					// 		return ft::make_pair(iterator(_head, _head), false);
-						
-					// 	else if (_comp(pair.first, key))							// if pair < it value
-					// 		it--;
-					// 	else														// if pair > it value
-					// 		it++:
-
-					// }
-
-
-
-				// 	iterator it(_head, _head);
-				// 	while (it.base()->left != it.base()->right)
-				// 	{
-				// 		key_type key = it.base()->value.first;
-				// 		if (pair.first == key)
-				// 			return ft::make_pair(iterator(_head, _head), false);
-				// 		else if (_comp(pair.first, key))
-				// 			it--;
-				// 		else
-				// 			it++;
-				// 	}	
-				// 	new_node = _alloc.allocate(1);
-				// 	_alloc.construct(new_node, pair);
-				// 	new_node->parent = it.base();	
-				// 	if (_comp(it.base()->value.first, pair.first))
-				// 		_head->right = new_node;
-				// 	else
-				// 		_head->left = new_node;
-				// }
-				// /* -------------------------------------- */		
-				// _size++;													// LOCK
-				// return ft::make_pair(iterator(new_node, _head), true);		// LOCK
-			// }
-
-		
-
-		// node_type* nd(this->root());
-		// while (1)
-		// {
-		// 	int comp_result = _comp(pair.first, nd->value.first);
-		// 	if (comp_result == false && !_comp(nd->value.first, pair.first))
-		// 		return (ft::make_pair(iterator(_head), false));
-		// 	else if (comp_result == true)
-		// 	{
-		// 		if (nd->left->leaf())
-		// 		{
-		// 			_alloc.destroy(nd->left);
-		// 			nd->left = new_node;
-		// 			break ;
-		// 		}
-		// 		else
-		// 			nd = nd->left;
-		// 	}
-		// 	else
-		// 	{
-		// 		if (nd->right->leaf())
-		// 		{
-		// 			_alloc.destroy(nd->right);
-		// 			nd->right = new_node;
-		// 			break ;
-		// 		}
-		// 		else
-		// 			nd = nd->right;
-		// 	}
-		// }
-		// new_node = _alloc.allocate(1);
-		// _alloc.construct(new_node, pair);
-		// new_node->parent = nd;
-		// if (nd == this->end() && new_node == nd->right)
-		// 	_head->right = new_node;
-		// else if (nd == this->begin() && new_node == nd->left)
-		// 	_head->left = new_node;
-		// }
-		// _size++;				
-		// return ft::make_pair(iterator(new_node), true);
     };
 };
 

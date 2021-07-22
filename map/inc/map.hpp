@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 09:46:06 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/22 14:03:06 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/23 01:14:06 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,33 +239,57 @@ namespace ft
 
 		/* --- Operations --------------------------------------------------- */
 
-			// iterator find(const key_type& k)
-			// {}
+			iterator find(const key_type& k)
+			{
+				return _tree.find(k);
+			}
 
-			// const_iterator find(const key_type& k) const
-			// {}
+			const_iterator find(const key_type& k) const
+			{
+				return _tree.find(k);
+			}
 
 			// size_type count(const key_type& k) const
 			// {}
 
 			iterator lower_bound(const key_type& k)
 			{
-				return _tree.lower_bound(k);
+				for (iterator it = _tree.begin(); it != _tree.end(); it++)
+				{
+					if (!_comp((*it).first, k))
+						return it;
+				}
+				return this->end();
 			}
 
 			const_iterator lower_bound(const key_type& k) const
 			{
-				return _tree.lower_bound(k);
+				for (const_iterator it = _tree.begin(); it != _tree.end(); it++)
+				{
+					if (!_comp((*it).first, k))
+						return it;
+				}
+				return this->end();
 			}
 
 			iterator upper_bound(const key_type& k)
 			{
-				return _tree.upper_bound(k);
+				iterator it = this->lower_bound(k);
+
+				if (it.base()->value.first == k)
+					return ++it;
+				else
+					return it;
 			}
 
 			const_iterator upper_bound(const key_type& k) const
 			{
-				return _tree.upper_bound(k);
+				const_iterator it = this->lower_bound(k);
+
+				if (it.base()->value.first == k)
+					return ++it;
+				else
+					return it;
 			}
 
 			// ft::pair<const_iterator, const_iterator> equal_range(const key_type& k) const
