@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/14 18:05:39 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/19 13:39:29 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,17 @@
 
 # include <memory>
 
-# include "utility/utility.hpp"
-# include "utility/algorithm.hpp"
-# include "utility/type_traits.hpp"
-# include "utility/iterator.hpp"
+# include "../../utility/utility.hpp"
+# include "../../utility/algorithm.hpp"
+# include "../../utility/type_traits.hpp"
+# include "../../utility/iterator.hpp"
 
 namespace ft
 {
 	/* ---------------------------------------------------------------------- */
 	/* --- vectorIterator class --------------------------------------------- */
 
-	template <class Category, class T, class Distance = ptrdiff_t,
-		class Pointer = T*, class Reference = T&>
+	template <class T>
 	class vectorIterator: public ft::iterator<ft::random_access_iterator_tag, T>
 	{
 		/* --- member types ------------------------------------------------- */
@@ -34,10 +33,10 @@ namespace ft
 		public:
 
 			typedef T         								value_type;
-			typedef Distance  								difference_type;
-			typedef Pointer   								pointer;
-			typedef Reference 								reference;
-			typedef Category  								iterator_category;
+			typedef ptrdiff_t  								difference_type;
+			typedef T*  									pointer;
+			typedef T&										reference;
+			typedef typename ft::random_access_iterator_tag iterator_category;
 
 		/* --- member variables --------------------------------------------- */
 
@@ -55,7 +54,7 @@ namespace ft
 			}
 	
 			template <class Iter>
-			vectorIterator(const vectorIterator<iterator_category, Iter>& it)
+			vectorIterator(const vectorIterator<Iter>& it)
 			{
 				_it = it.base();
 			}
@@ -134,103 +133,103 @@ namespace ft
 	/* ---------------------------------------------------------------------- */
 	/* --- non-member function overloads (vectorIterator) ------------------- */
 
-    template <class T, class Category>
-	bool operator==(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, T>& rhs)
+    template <class T>
+	bool operator==(const vectorIterator<T>& lhs,
+		const vectorIterator<T>& rhs)
 	{
 		return lhs.base() == rhs.base();
 	}
-	template <class T, class TT, class Category>
-	bool operator==(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, TT>& rhs)
+	template <class T, class TT>
+	bool operator==(const vectorIterator<T>& lhs,
+		const vectorIterator<TT>& rhs)
 	{
 		return lhs.base() == rhs.base();
 	}
 
-	template <class T, class Category>
-	bool operator!=(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, T>& rhs)
+	template <class T>
+	bool operator!=(const vectorIterator<T>& lhs,
+		const vectorIterator<T>& rhs)
 	{
 		return lhs.base() != rhs.base();
 	}
-	template <class T, class TT, class Category>
-	bool operator!=(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, TT>& rhs)
+	template <class T, class TT>
+	bool operator!=(const vectorIterator<T>& lhs,
+		const vectorIterator<TT>& rhs)
 	{
 		return lhs.base() != rhs.base();
 	}
 
-	template <class T, class Category>
-	bool operator<(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, T>& rhs)
+	template <class T>
+	bool operator<(const vectorIterator<T>& lhs,
+		const vectorIterator<T>& rhs)
 	{
 		return lhs.base() < rhs.base();
 	}
-	template <class T, class TT, class Category>
-	bool operator<(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, TT>& rhs)
+	template <class T, class TT>
+	bool operator<(const vectorIterator<T>& lhs,
+		const vectorIterator<TT>& rhs)
 	{
 		return lhs.base() < rhs.base();
 	}
 
-	template <class T, class Category>
-	bool operator<=(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, T>& rhs)
+	template <class T>
+	bool operator<=(const vectorIterator<T>& lhs,
+		const vectorIterator<T>& rhs)
 	{
 		return lhs.base() <= rhs.base();
 	}
-	template <class T, class TT, class Category>
-	bool operator<=(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, TT>& rhs)
+	template <class T, class TT>
+	bool operator<=(const vectorIterator<T>& lhs,
+		const vectorIterator<TT>& rhs)
 	{
 		return lhs.base() <= rhs.base();
 	}
 
-	template <class T, class Category>
-	bool operator>(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, T>& rhs)
+	template <class T>
+	bool operator>(const vectorIterator<T>& lhs,
+		const vectorIterator<T>& rhs)
 	{
 		return lhs.base() > rhs.base();
 	}
-	template <class T, class TT, class Category>
-	bool operator>(const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, TT>& rhs)
+	template <class T, class TT>
+	bool operator>(const vectorIterator<T>& lhs,
+		const vectorIterator<TT>& rhs)
 	{
 		return lhs.base() > rhs.base();
 	}
 
-	template <class T, class Category>
-	bool operator>= (const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, T>& rhs)
+	template <class T>
+	bool operator>= (const vectorIterator<T>& lhs,
+		const vectorIterator<T>& rhs)
 	{
 		return lhs.base() >= rhs.base();
 	}
-	template <class T, class TT, class Category>
-	bool operator>= (const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, TT>& rhs)
+	template <class T, class TT>
+	bool operator>= (const vectorIterator<T>& lhs,
+		const vectorIterator<TT>& rhs)
 	{
 		return lhs.base() >= rhs.base();
 	}
 
-	template <class T, class Category>
-	vectorIterator<Category, T> operator+(
-		typename vectorIterator<Category, T>::difference_type n,
-		const vectorIterator<Category, T>& it)
+	template <class T>
+	vectorIterator<T> operator+(
+		typename vectorIterator<T>::difference_type n,
+		const vectorIterator<T>& it)
 	{
 		return it + n;
 	}
 
-	template <class T, class Category>
-	typename vectorIterator<Category, T>::difference_type operator-(
-		const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, T>& rhs)
+	template <class T>
+	typename vectorIterator<T>::difference_type operator-(
+		const vectorIterator<T>& lhs,
+		const vectorIterator<T>& rhs)
 	{
 		return lhs.base() - rhs.base();
 	}
-	template <class T, class TT, class Category>
-	typename vectorIterator<Category, T>::difference_type operator-(
-		const vectorIterator<Category, T>& lhs,
-		const vectorIterator<Category, TT>& rhs)
+	template <class T, class TT>
+	typename vectorIterator<T>::difference_type operator-(
+		const vectorIterator<T>& lhs,
+		const vectorIterator<TT>& rhs)
 	{
 		return lhs.base() - rhs.base();
 	}
@@ -251,8 +250,8 @@ namespace ft
 			typedef typename allocator_type::const_reference		const_reference;
 			typedef typename allocator_type::pointer				pointer;
 			typedef typename allocator_type::const_pointer			const_pointer;	
-			typedef typename ft::vectorIterator<ft::random_access_iterator_tag, value_type> iterator;
-			typedef typename ft::vectorIterator<ft::random_access_iterator_tag, const value_type> const_iterator;
+			typedef typename ft::vectorIterator<value_type> 		iterator;
+			typedef typename ft::vectorIterator<const value_type> 	const_iterator;
 			typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 			typedef ptrdiff_t										difference_type;
@@ -271,10 +270,10 @@ namespace ft
 
 		public:
 
-			vector(const allocator_type& alloc = allocator_type())
+			explicit vector(const allocator_type& alloc = allocator_type())
 			: _alloc(alloc), _container(NULL), _size(0), _capacity(0) {}
 
-			vector(size_type n, const value_type& val = value_type(),
+			explicit vector(size_type n, const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
 			: _alloc(alloc), _container(_alloc.allocate(n)), _size(n), _capacity(n)
 			{	

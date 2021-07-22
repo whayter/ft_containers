@@ -1,12 +1,13 @@
-NAME = ft_containers
+NAME = map
 
 SRC_DIR = ./src
 INC_DIR = ./inc
 OBJ_DIR = ./obj
 
-SRC = vector.cpp
+SRC = map.cpp
 vpath %.cpp $(SRC_DIR)
-INC = vector.hpp
+INC = map.hpp
+INC += ../utility/binary_search_tree.hpp
 INC += ../utility/algorithm.hpp
 INC += ../utility/iterator.hpp
 INC += ../utility/type_traits.hpp
@@ -29,21 +30,31 @@ all: $(NAME)
 
 $(OBJ_DIR)/%.o: %.cpp
 	@($(MKD) $(OBJ_DIR))
-	@($(CXX) $(CXXFLAGS) -c $(IFLAGS) $< -o $@)
+	@($(MKD) $(OBJ_DIR)/ft)
+	@($(CXX) $(CXXFLAGS) -c $(IFLAGS) $< -o obj/ft/map.o)
+	@($(MKD) $(OBJ_DIR)/std)
+	@($(CXX) $(CXXFLAGS) -c $(IFLAGS) $< -D STD=1 -o obj/std/map.o)
 
 $(NAME): $(OBJ)
-	@(echo "$(STRT_STYLE)Compiling...$(END_STYLE)")
-	@$(CXX) $(CXXFLAGS) $(IFLAGS)  -o $@ $(OBJ)
+	@(echo "$(STRT_STYLE)Compiling ft_map...$(END_STYLE)")
+	@$(CXX) $(CXXFLAGS) $(IFLAGS)  -o ft_$@ obj/ft/map.o
+	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
+	@(echo "$(STRT_STYLE)Compiling std_map...$(END_STYLE)")
+	@$(CXX) $(CXXFLAGS) $(IFLAGS)  -o std_$@ obj/std/map.o
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
 clean:
 	@(echo "$(STRT_STYLE)Cleaning...$(END_STYLE)")
 	@($(RM) $(OBJ_DIR))
+	@($(RM) out)
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
 fclean: clean
 	@(echo "$(STRT_STYLE)Fcleaning...$(END_STYLE)")
-	@($(RM) $(NAME))
+	@($(RM) ft_$(NAME))
+	@($(RM) std_$(NAME))
+	@($(RM) ft_map.txt)
+	@($(RM) std_map.txt)
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
 re: fclean all
