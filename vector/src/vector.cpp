@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 13:03:35 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/19 12:55:53 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/24 23:58:27 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -932,5 +932,6 @@ int main()
         get_capacities(vct);
         get_capacities(vct2);
     }
+
     return 0;
 }
