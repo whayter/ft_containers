@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/23 01:12:17 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/25 00:42:35 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BINARY_SEARCH_TREE_HPP
 
 # include "utility.hpp"
+# include <string>
 
 /*--------------------------------------------------------------------------- */
 /*                                                                            */
@@ -34,7 +35,12 @@
 /*                            /      200                                      */
 /*                           /      /   \                                     */
 /*                          /     150  	220                                   */
-/*                         50                                   			  */
+/*                         50          /   \                         		  */
+/*                        /  \        210  250       	                  	  */
+/*                       20	  70	  	  /   \                      	  	  */
+/*                         			    230   280                        	  */
+/*                         			   /   \    \                  			  */
+/*                         			 225   240  300                     	  */
 /*                                                                            */
 /*--------------------------------------------------------------------------- */
 
@@ -94,7 +100,6 @@ namespace ft
 		bool is_leaf(std::string side)
 		{
 			pointer n = (side == "left" ? left : right);
-			
 			if (value == n->value)
 				return true;
 			return false;
@@ -111,19 +116,19 @@ namespace ft
 
 		public:
 
-			typedef T         								value_type;
-			typedef ptrdiff_t  								difference_type;
-			typedef T*   									pointer;
-			typedef T&										reference;
-			typedef typename ft::bidirectional_iterator_tag iterator_category;
-			typedef typename ft::mapNode<value_type>		node_type;
+			typedef T         									value_type;
+			typedef ptrdiff_t  									difference_type;
+			typedef T*   										pointer;
+			typedef T&											reference;
+			typedef typename ft::bidirectional_iterator_tag 	iterator_category;
+			typedef typename ft::mapNode<value_type>			node_type;
 
 		/* --- member variables --------------------------------------------- */
 
 		private:
 
-			node_type*										_node;
-			node_type*										_head;
+			node_type*											_node;
+			node_type*											_head;
 
 		/* --- member functions --------------------------------------------- */
 
@@ -137,8 +142,6 @@ namespace ft
 
 			mapIterator& operator=(const mapIterator& x)
 			{
-				if (*this == x)
-					return *this;
 				_node = x._node;
 				_head = x._head;
 				return *this;
@@ -204,6 +207,8 @@ namespace ft
 			{
 				if (_node == _head)
 					_node = _head->right;
+				else if (_node == _head->left)
+					_node = _head;
 				else if (_node->left != _node)
 				{
 					_node = _node->left;
@@ -239,25 +244,24 @@ namespace ft
 		/* --- member types ------------------------------------------------- */
 
 		public:
-
-			typedef Key										key_type;
-			typedef T   									mapped_type;
-			typedef Pair									value_type;
-			typedef Node									node_type;
-			typedef Compare									key_compare;
-			typedef Alloc									allocator_type;
-			typedef typename ft::mapIterator<Pair> 			iterator;
-			typedef typename ft::mapIterator<const Pair>	const_iterator;
-			typedef size_t									size_type;
+			typedef Key												key_type;
+			typedef T   											mapped_type;
+			typedef Pair											value_type;
+			typedef Node											node_type;
+			typedef Compare											key_compare;
+			typedef Alloc											allocator_type;
+			typedef typename ft::mapIterator<Pair> 					iterator;
+			typedef typename ft::mapIterator<Pair> 					const_iterator;
+			typedef size_t											size_type;
 		
 		/* --- member variables --------------------------------------------- */
 
 		private:
 			
-			allocator_type									_alloc;
-			key_compare										_comp;
-			node_type*										_head;
-			size_type										_size;
+			allocator_type											_alloc;
+			key_compare												_comp;
+			node_type*												_head;
+			size_type												_size;
 
 		/* --- Constructors & destructor ------------------------------------ */
 
@@ -303,13 +307,13 @@ namespace ft
 
 			iterator find(const key_type& key)
 			{
-				node_type* node = this->_search(this->root(), key);
+				node_type* node = this->_search(key);
 				return iterator(node, _head);
 			}
 
 			const_iterator find(const key_type& key) const
 			{
-				node_type* node = this->_search(this->root(), key);
+				node_type* node = this->_search(key);
 				return const_iterator(node, _head);
 			}
 
@@ -324,7 +328,7 @@ namespace ft
 			{
 				return _size;
 			}
-
+			
 		/* --- Element access ----------------------------------------------- */
 
 			node_type* root() const
@@ -337,7 +341,7 @@ namespace ft
 			ft::pair<iterator, bool> insert(value_type pair)
 			{
 				node_type* cursor = this->_find_insert_position(pair);
-				node_type* new_node;
+				node_type* new_node;			
 
 				if (this->empty())
 				{
@@ -346,11 +350,17 @@ namespace ft
 					_head->parent = new_node;
 					_head->left = new_node;
 					_head->right = new_node;
+					new_node->parent = new_node;
 					new_node->right = new_node;
 					new_node->left = new_node;
-				}
+				}		
 				else if (!cursor)
-					return ft::make_pair(iterator(_head, _head), false);
+					return ft::make_pair(iterator(_head, _head), false);		
+				else if (cursor == _head)
+				{
+					new_node = (this->find(pair.first)).base();
+					return ft::make_pair(iterator(new_node, _head), false);
+				}
 				else
 				{
 					new_node = _alloc.allocate(1);
@@ -375,49 +385,143 @@ namespace ft
 				return ft::make_pair(iterator(new_node, _head), true);
 			}
 
-			// void erase_node(node_type* to_remove)
-			// {
-			// 	if (!to_remove || to_remove == _head)
-			// 		return ;
-	
-			// 	else if (to_remove == this->root())
-			// 	{
-			// 		if ()
-			// 		_header->parent =
-			// 	}
-			// 	else if (to_remove->is_leaf())
-			// 	{
-					
-			// 	}
-			// 	else
-			// 	{
-					
-			// 	}
+			void erase(node_type* to_remove)
+			{	
+				node_type* hook;
 
+				if (!to_remove || to_remove == _head)
+				{
+					return ;
+				}
+				else if (to_remove == this->root())
+				{
+					if (_size == 1)
+					{
+						_head->parent = NULL;
+						_head->left = _head;
+						_head->right = _head;
+					}
+					else if (to_remove->left != to_remove && to_remove->right != to_remove)
+					{
+						_head->parent = to_remove->left;
+						hook = this->_rightmost(to_remove->left);
+						hook->right = to_remove->right;
+						to_remove->right->parent = hook;
+						if (to_remove->value.first == _head->right->value.first)
+							_head->right = hook;
+						else if (to_remove->value.first == _head->left->value.first)
+							_head->left = hook;
+					}
+					else if (to_remove->left != to_remove)
+					{
+						_head->parent = to_remove->left;
+						_head->right = this->_rightmost(to_remove->left);
+						to_remove->left->parent = to_remove->left;
+					}
+					else if (to_remove->right != to_remove)
+					{
+						_head->parent = to_remove->right;
+						_head->left = this->_leftmost(to_remove->right);
+						to_remove->right->parent = to_remove->right;
+					}	
+				}
+				else if (to_remove->is_leaf("left") && to_remove->is_leaf("right"))
+				{
+					hook = to_remove->parent;
+					if (_comp(hook->value.first, to_remove->value.first))
+						hook->right = hook;
+					else
+						hook->left = hook;
+					if (to_remove->value.first == _head->right->value.first)
+						_head->right = hook;
+					else if (to_remove->value.first == _head->left->value.first)
+						_head->left = hook;
+				}	
+				else if (to_remove->is_leaf("left"))
+				{
+					hook = to_remove->parent;
+					if (_comp(hook->value.first, to_remove->value.first))
+						hook->right = to_remove->right;
+					else
+						hook->left = to_remove->right;
+					to_remove->right->parent = hook;
+					if (to_remove->value.first == _head->left->value.first)
+						_head->left = hook;
+				}
+				else if (to_remove->is_leaf("right"))
+				{
+					hook = to_remove->parent;
+					if (_comp(hook->value.first, to_remove->value.first))
+						hook->right = to_remove->left;
+					else
+						hook->left = to_remove->left;
+					to_remove->left->parent = hook;
+					if (to_remove->value.first == _head->right->value.first)
+						_head->right = this->_rightmost(to_remove->left);
+				}
+				else
+				{
+				 	node_type* l = to_remove->left;
+					node_type* r = to_remove->right;
 
-			// 	if (n->is_leaf())
-			// 	{
-			// 		if (_comp(n->value.first, n->parent->value.first))
-			// 		n->parent->left = n->parent;
-			// 	}
-			// }
+					hook = to_remove->parent;
+					if (_comp(hook->value.first, to_remove->value.first))
+					{
+						hook->right = l;
+						l->parent = hook;
+						r->parent = this->_rightmost(l);
+						this->_rightmost(l)->right = r;
+					}
+					else
+					{
+						hook->left = r;
+						r->parent = hook;
+						l->parent = this->_leftmost(r);
+						this->_leftmost(r)->left = l;
+					}
+				}
+				_alloc.destroy(to_remove);
+				_alloc.deallocate(to_remove, 1);
+				_size--;
+			}
 
+			void swap(mapTree& x)
+			{
+				node_type* tmp = _head;
+				_head = x._head;
+				x._head = tmp;
+			}
 
 		/* --- private member functions ------------------------------------- */
 
 		private:
 
-			node_type* _search(node_type *root, key_type key)
+			node_type* _search(key_type key) const
 			{
+				node_type* root = this->root();
+				
 				if (!root || root == _head)
 					return _head;
+				while (1)
+				{
+					if (root->value.first == key)
+						break;
+					else if (_comp(root->value.first, key))
+					{
+						if (root->right == root)
+							break;
+						root = root->right;
+					}
+					else
+					{
+						if (root->left == root)
+							break;
+						root = root->left;
+					}
+				}
 				if (root->value.first == key)
 					return root;
-				if (root == _head->right)
-					return _head;
-				if (_comp(root->value.first, key))
-					return _search(root->right, key);
-				return _search(root->left, key);
+				return _head;
 			}
 
 			node_type* _find_insert_position(value_type& pair)
@@ -428,7 +532,7 @@ namespace ft
 				while (1)
 				{
 					if (pair.first == cursor->value.first)
-						return NULL;										// retourner cursor ?
+						return _head;						
 					else if (_comp(pair.first, cursor->value.first))
 					{
 						if (cursor->is_leaf("left"))
@@ -446,7 +550,21 @@ namespace ft
 				}
 				return cursor;
 			}
-    };
+
+			node_type* _leftmost(node_type *root)
+			{
+				while (root->left != root)
+					root = root->left;
+				return root;
+			}
+
+			node_type* _rightmost(node_type *root)
+			{
+				while (root->right != root)
+					root = root->right;
+				return root;
+			}
+	};
 };
 
 #endif

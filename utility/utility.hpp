@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 12:46:40 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/06 23:12:04 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/25 00:40:10 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,12 @@ namespace ft
 
 		/* --- Member functions --------------------------------------------- */
 
-			pair()
-			:
-				first(),
-				second()
-			{}
+			pair(): first(), second() {}
 
 			template<class U, class V>
-			pair(const pair<U, V>& pr)
-			:
-				first(pr.first),
-				second(pr.second)
-			{}
+			pair(const pair<U, V>& pr): first(pr.first), second(pr.second) {}
 
-			pair(const first_type& a, const sedond_type& b)
-			:
-				first(a),
-				second(b)
-			{}
+			pair(const first_type& a, const sedond_type& b): first(a), second(b) {}
 
 			pair& operator=(const pair& pr)
 			{
