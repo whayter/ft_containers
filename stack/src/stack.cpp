@@ -6,12 +6,14 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 13:03:09 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/25 00:07:46 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/26 12:44:01 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <iomanip>
+#include <deque>
+#include <chrono>
 
 #ifdef STD
     #include <vector>
@@ -22,6 +24,10 @@
 #endif
 
 #define VALUE_TYPE int
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/* ************************************************************************** */
 
 void intro()
 {
@@ -49,6 +55,7 @@ void get_info(ft::stack<T>& stack)
     std::cout << "top: " << stack.top() << std::endl;
 }
 template <class T, class CONTAINER>
+
 void get_info(ft::stack<T, CONTAINER>& stack)
 {
     std::cout << std::endl;
@@ -72,6 +79,7 @@ void get_content(ft::stack<T> stack)
         std::cout << stack.top() << std::endl;
 }
 template <class T, class CONTAINER>
+
 void get_content(ft::stack<T, CONTAINER> stack)
 {
     std::cout << std::endl;
@@ -97,8 +105,9 @@ void compare(ft::stack<T> left, ft::stack<T> right)
 	if (left >= right)
         std::cout << "left >= right" << std::endl; 
 }
+
 template <class T, class CONTAINER>
-void get_content(ft::stack<T, CONTAINER> left, ft::stack<T, CONTAINER> right)
+void compare(ft::stack<T, CONTAINER> left, ft::stack<T, CONTAINER> right)
 {
     if (left == right)
         std::cout << "left = right" << std::endl;
@@ -114,132 +123,199 @@ void get_content(ft::stack<T, CONTAINER> left, ft::stack<T, CONTAINER> right)
         std::cout << "left >= right" << std::endl; 
 }
 
-/* ----------------------------------------------------------------------------------- */
-/* ----------------------------------------------------------------------------------- */
+/* ************************************************************************** */
+/* ************************************************************************** */
+/* ************************************************************************** */
 
 int main()
 {
-    //intro();  
-    std::cout << "--------------------------------------------------------" << std::endl;
-    {
-        std::cout << "------------------------ test 1 ------------------------" << std::endl;
+    //intro();
+    // auto start = std::chrono::high_resolution_clock::now();
 
+    std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "-------------------- push / pop (1) --------------------" << std::endl;
+    std::cout << std::endl;
+    
+    {
         ft::stack<VALUE_TYPE> stack;
-
         stack.push(1);
         stack.push(2);
         stack.push(3);
         stack.push(4);
-
         get_info(stack);
         get_content(stack);
-
         stack.pop();
         stack.pop();
-
         get_info(stack);
         get_content(stack);
     }
+   
     std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "-------------------- push / pop (2) --------------------" << std::endl;
+    std::cout << std::endl;
+    
     {
-        std::cout << "------------------------ test 2 ------------------------" << std::endl;
-
-        ft::vector<VALUE_TYPE> vector(21, 42);
+        ft::stack<VALUE_TYPE> stack;
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+        get_info(stack);
+        get_content(stack);
+        stack.pop();
+        stack.pop();
+        get_info(stack);
+        get_content(stack);
+        stack.pop();
+        stack.pop();
+        std::cout << std::endl;
+        std::cout << "empty : " << stack.empty() << std::endl;
+        get_content(stack);
+    }
+   
+    std::cout << std::endl;
+    std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "----------- specified container construction -----------" << std::endl;
+    std::cout << std::endl;
+   
+    {
+        ft::vector<VALUE_TYPE> vector(12, 42);
         ft::stack<VALUE_TYPE, ft::vector<VALUE_TYPE> > stack(vector);
-
         stack.push(1);
         stack.push(2);
         stack.push(3);
         stack.push(4);
-
         get_info(stack);
         get_content(stack);
-
         stack.pop();
         stack.pop();
-
         get_info(stack);
         get_content(stack);
+        std::cout << std::endl;
+        std::cout << "vector content: ";
+        for (ft::vector<VALUE_TYPE>::iterator it = vector.begin(); it != vector.end(); it++)
+            std::cout << " " << *it;
+        std::cout << std::endl;
     }
-    std::cout << "--------------------------------------------------------" << std::endl;
-    {
-        std::cout << "------------------------ test 3 ------------------------" << std::endl;
 
+    std::cout << std::endl;
+    std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "------------------------- copy -------------------------" << std::endl;
+    std::cout << std::endl;
+
+    {
         ft::stack<VALUE_TYPE> stack_1;
         ft::stack<VALUE_TYPE> stack_2;
-
         stack_1.push(1);
         stack_1.push(2);
         stack_1.push(3);
         stack_1.push(4);
-
         stack_2 = stack_1;
-
         std::cout << "--- stack_1:" << std::endl;
         get_info(stack_1);
         get_content(stack_1);
-
         std::cout << "--- stack_2:" << std::endl;
         get_info(stack_2);
         get_content(stack_2);
     }
-    std::cout << "--------------------------------------------------------" << std::endl;
-    {
-        std::cout << "------------------------ test 4 ------------------------" << std::endl;
 
+    std::cout << std::endl;
+    std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "---------------------- empty copy ----------------------" << std::endl;
+    std::cout << std::endl;
+    
+    {
         ft::stack<VALUE_TYPE> stack_1;
         ft::stack<VALUE_TYPE> stack_2;
-
-        stack_1.push(1);
-        stack_1.push(2);
-        stack_1.push(3);
-        stack_1.push(4);
-
         stack_2 = stack_1;
-
         std::cout << "--- stack_1:" << std::endl;
-        get_info(stack_1);
+        std::cout << "empty : " << stack_1.empty() << std::endl;
         get_content(stack_1);
-
         std::cout << "--- stack_2:" << std::endl;
-        get_info(stack_2);
+        std::cout << "empty : " << stack_2.empty() << std::endl;
         get_content(stack_2);
     }
+    
+    std::cout << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "---------------------- comparison ----------------------" << std::endl;
+    std::cout << std::endl;
+    
     {
-        std::cout << "------------------------ test 5 ------------------------" << std::endl;
-
         ft::stack<VALUE_TYPE> stack_1;
         ft::stack<VALUE_TYPE> stack_2;
         ft::stack<VALUE_TYPE> stack_3;
-
         stack_1.push(1);
         stack_1.push(2);
         stack_1.push(3);
-
         stack_2.push(1);
         stack_2.push(2);
         stack_2.push(3);
-
         stack_3.push(2);
         stack_3.push(3);
         stack_3.push(1);
-
         compare(stack_1, stack_2);
         compare(stack_1, stack_3);
     }
+    
+    std::cout << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "------------- value_type = std::string (1) -------------" << std::endl;
+    std::cout << std::endl;
+    
     {
-        std::cout << "------------------------ test 6 ------------------------" << std::endl;
-
         ft::stack<std::string> stack;
-
         stack.push("ok");
         stack.push("yes");
-
         get_info(stack);
-        get_content(stack);        
+        get_content(stack);
+        stack.push("lalala");
+        stack.push("..");  
+        get_info(stack);
+        get_content(stack);      
+        stack.pop();
+        get_info(stack);
+        get_content(stack); 
     }
 
+    std::cout << std::endl;
+    std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "------------- value_type = std::string (2) -------------" << std::endl;
+    std::cout << std::endl;
+    
+    {
+        ft::stack<std::string> stack;
+        stack.push("ok azertyuiopqsdfghjklmwxcvbn,;azrtyu");
+        stack.push("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        get_info(stack);
+        get_content(stack);   
+        stack.pop();
+        get_info(stack);
+        get_content(stack); 
+    }
+
+    std::cout << std::endl;
+    std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "------------- using std::deque as container ------------" << std::endl;
+    std::cout << std::endl;
+    
+    {
+        ft::stack<int, std::deque<int> > stack;
+        stack.push(3);
+        stack.push(7);
+        stack.push(5);
+
+        get_info(stack);
+        get_content(stack);   
+        stack.pop();
+        get_info(stack);
+        get_content(stack); 
+    }
+
+    // auto stop = std::chrono::high_resolution_clock::now();
+    // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    // std::cout << "Time taken by function: "
+    //      << duration.count() << " microseconds" << std::endl;
+         
     return 0;
 }

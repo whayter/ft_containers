@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 11:05:25 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/19 12:59:53 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/26 15:21:49 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,7 @@ namespace ft
 			friend bool	operator==(const stack<TY, C> &lhs, const stack<TY, C> &rhs);
 
 			template <class TY, class C>
-			friend bool	operator!=(const stack<TY, C> &lhs, const stack<TY, C> &rhs);
-
-			template <class TY, class C>
 			friend bool	operator<(const stack<TY, C> &lhs, const stack<TY, C> &rhs);
-
-			template <class TY, class C>
-			friend bool	operator<=(const stack<TY, C> &lhs, const stack<TY, C> &rhs);
-
-			template <class TY, class C>
-			friend bool	operator>(const stack<TY, C> &lhs, const stack<TY, C> &rhs);
-
-			template <class TY, class C>
-			friend bool	operator>=(const stack<TY, C> &lhs, const stack<TY, C> &rhs);
 
 		/* --- Member functions --------------------------------------------- */
 
@@ -105,7 +93,7 @@ namespace ft
 	template <class T, class Container>
 	bool operator!=(const stack<T,Container>& lhs, const stack<T,Container>& rhs)
 	{
-		return lhs._container != rhs._container;
+		return !(lhs == rhs);
 	}
 
 	template <class T, class Container>
@@ -117,19 +105,19 @@ namespace ft
 	template <class T, class Container>
 	bool operator<=(const stack<T,Container>& lhs, const stack<T,Container>& rhs)
 	{
-		return lhs._container <= rhs._container;
+		return !(rhs < lhs);
 	}
 
 	template <class T, class Container>
 	bool operator>(const stack<T,Container>& lhs, const stack<T,Container>& rhs)
 	{
-		return lhs._container > rhs._container;
+		return rhs < lhs;
 	}
 	
 	template <class T, class Container>
 	bool operator>=(const stack<T,Container>& lhs, const stack<T,Container>& rhs)
 	{
-		return lhs._container >= rhs._container;
+		return !(lhs < rhs);
 	}
 };
 

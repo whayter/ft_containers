@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/25 00:42:35 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/26 13:43:51 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ namespace ft
 	/* ---------------------------------------------------------------------- */
 	/* --- mapIterator class ------------------------------------------------ */
 
-	template <class T>
+	template <class T, class N>
 	class mapIterator: public ft::iterator<ft::bidirectional_iterator_tag, T>
 	{
 		/* --- member types ------------------------------------------------- */
@@ -121,7 +121,7 @@ namespace ft
 			typedef T*   										pointer;
 			typedef T&											reference;
 			typedef typename ft::bidirectional_iterator_tag 	iterator_category;
-			typedef typename ft::mapNode<value_type>			node_type;
+			typedef N											node_type;
 
 		/* --- member variables --------------------------------------------- */
 
@@ -137,21 +137,31 @@ namespace ft
 			mapIterator(): _node(NULL), _head(NULL) {}
 
 			mapIterator(node_type* nd, node_type* tk): _node(nd), _head(tk) {}
-	
-			mapIterator(const mapIterator& x): _node(x._node), _head(x._head) {}
+
+			template <class Ty, class Tyy>
+			mapIterator<Ty, Tyy>(const mapIterator<Ty, Tyy>& x)
+			{
+				_node = x.base();
+				_head = x.head();
+			}
 
 			mapIterator& operator=(const mapIterator& x)
 			{
-				_node = x._node;
-				_head = x._head;
+				_node = x.base();
+				_head = x.head();
 				return *this;
 			}
 
 			~mapIterator() {}
 
-			node_type* base()
+			node_type* base() const
 			{
 				return _node;
+			}
+
+			node_type* head() const
+			{
+				return _head;
 			}
 
 			bool operator==(const mapIterator& x)
@@ -236,23 +246,24 @@ namespace ft
 	/* ---------------------------------------------------------------------- */
 	/* --- mapTree class ---------------------------------------------------- */
 
-	template <	class Key, class T, class Pair = ft::pair<const Key, T>,
-				class Compare = std::less<Key>, class Node = ft::mapNode<Pair>,
+	template <	class Key, class T, class Compare = std::less<Key>,
+				class Pair = ft::pair<const Key, T>, class Node = ft::mapNode<Pair>,
 				class Alloc = std::allocator<Node> >
 	class mapTree
 	{
 		/* --- member types ------------------------------------------------- */
 
 		public:
-			typedef Key												key_type;
-			typedef T   											mapped_type;
-			typedef Pair											value_type;
-			typedef Node											node_type;
-			typedef Compare											key_compare;
-			typedef Alloc											allocator_type;
-			typedef typename ft::mapIterator<Pair> 					iterator;
-			typedef typename ft::mapIterator<Pair> 					const_iterator;
-			typedef size_t											size_type;
+
+			typedef Key													key_type;
+			typedef T   												mapped_type;
+			typedef Pair												value_type;
+			typedef Node												node_type;
+			typedef Compare												key_compare;
+			typedef Alloc												allocator_type;
+			typedef typename ft::mapIterator<Pair, Node> 				iterator;
+			typedef typename ft::mapIterator<const Pair, const Node> 	const_iterator;
+			typedef size_t												size_type;
 		
 		/* --- member variables --------------------------------------------- */
 
@@ -487,9 +498,12 @@ namespace ft
 
 			void swap(mapTree& x)
 			{
-				node_type* tmp = _head;
+				node_type* tmp_head = _head;
+				size_type tmp_size = _size;		
 				_head = x._head;
-				x._head = tmp;
+				_size = x._size;			
+				x._head = tmp_head;
+				x._size = tmp_size;
 			}
 
 		/* --- private member functions ------------------------------------- */

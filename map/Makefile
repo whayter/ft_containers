@@ -17,13 +17,13 @@ OBJ = $(addprefix  $(OBJ_DIR)/,$(SRC:%.cpp=%.o))
 vpath %.cpp $(SRC_DIR)
 
 IFLAGS = $(foreach inc, $(INC_DIR),-I$(inc))
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-Wno-c++11-extensions
 
 CXX = clang++
 RM = rm -rf
 MV = mv
 MKD = mkdir -p
-STRT_STYLE = \033[1;32m
+STRT_STYLE = \033[0;32m
 END_STYLE = \033[0m
 
 all: $(NAME)
@@ -43,14 +43,17 @@ $(NAME): $(OBJ)
 	@$(CXX) $(CXXFLAGS) $(IFLAGS)  -o std_$@ obj/std/map.o
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
+test:
+	@(sh test.sh)
+
 clean:
-	@(echo "$(STRT_STYLE)Cleaning...$(END_STYLE)")
+	@(echo "$(STRT_STYLE)Cleaning map...$(END_STYLE)")
 	@($(RM) $(OBJ_DIR))
 	@($(RM) out)
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
 fclean: clean
-	@(echo "$(STRT_STYLE)Fcleaning...$(END_STYLE)")
+	@(echo "$(STRT_STYLE)Fcleaning map...$(END_STYLE)")
 	@($(RM) ft_$(NAME))
 	@($(RM) std_$(NAME))
 	@($(RM) ft_map.txt)
@@ -59,4 +62,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test

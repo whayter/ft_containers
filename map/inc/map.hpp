@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 09:46:06 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/25 00:38:56 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/26 16:44:41 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../../utility/utility.hpp"
 # include "../../utility/type_traits.hpp"
 # include "../../utility/iterator.hpp"
+# include "../../utility/algorithm.hpp"
 # include "../../utility/binary_search_tree.hpp"
 
 namespace ft
@@ -41,8 +42,8 @@ namespace ft
 			typedef typename allocator_type::const_reference		const_reference;
 			typedef typename allocator_type::pointer				pointer;
 			typedef typename allocator_type::const_pointer			const_pointer;
-			typedef typename ft::mapIterator<value_type>			iterator;
-			typedef typename ft::mapIterator<value_type>			const_iterator;
+			typedef typename ft::mapTree<Key, T>::iterator			iterator;
+			typedef typename ft::mapTree<Key, T>::const_iterator 	const_iterator;
 			typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 			typedef ptrdiff_t										difference_type;
@@ -75,11 +76,9 @@ namespace ft
 
 		private:
 
-			typedef typename ft::mapNode<value_type>				_node_type;
-
 			allocator_type											_alloc;
 			key_compare												_comp;
-			ft::mapTree<key_type, mapped_type>						_tree;
+			ft::mapTree<key_type, mapped_type, key_compare>			_tree;
 
 		/* --- Constructors & destructor ------------------------------------ */
 
@@ -172,7 +171,9 @@ namespace ft
 
 			size_type max_size(void) const
 			{
-				return allocator_type().max_size();
+				//return allocator_type().max_size();
+
+				return std::numeric_limits<difference_type>::max() / (sizeof(ft::mapNode<value_type>) / 2);
 			}
 
 		/* --- Element access ----------------------------------------------- */
@@ -217,9 +218,8 @@ namespace ft
 			}
 
 			void erase(iterator first, iterator last)
-			{
-				(void)last;
-				while (this->size())
+			{				
+				for (difference_type dist = ft::distance(first, last); dist; dist--)
 					_tree.erase((first++).base());
 			}
 
@@ -318,6 +318,53 @@ namespace ft
 				return ft::make_pair(lo, up);
 			}
 	};
+	
+	/* --- Non-member functions --------------------------------------------- */
+		
+	template <class Key, class T, class Compare,class Alloc>
+	bool operator==(const ft::map<Key, T, Compare, Alloc> &lhs,
+		const ft::map<Key, T, Compare, Alloc> &rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return false;
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
+
+	template <class Key, class T, class Compare,class Alloc>
+	bool operator!=(const ft::map<Key, T, Compare, Alloc> &lhs,
+		const ft::map<Key, T, Compare, Alloc> &rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <class Key, class T, class Compare,class Alloc>
+	bool operator<(const ft::map<Key, T, Compare, Alloc> &lhs,
+		const ft::map<Key, T, Compare, Alloc> &rhs)
+	{
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+	}
+
+	template <class Key, class T, class Compare,class Alloc>
+	bool operator<=(const ft::map<Key, T, Compare, Alloc> &lhs,
+		const ft::map<Key, T, Compare, Alloc> &rhs)
+	{
+		return !(rhs < lhs);
+	}
+
+	template <class Key, class T, class Compare,class Alloc>
+	bool operator>(const ft::map<Key, T, Compare, Alloc> &lhs,
+		const ft::map<Key, T, Compare, Alloc> &rhs)
+	{
+		return rhs < lhs;
+	}
+
+	template <class Key, class T, class Compare,class Alloc>
+	bool operator>=(const ft::map<Key, T, Compare, Alloc> &lhs,
+		const ft::map<Key, T, Compare, Alloc> &rhs)
+	{
+		return !(lhs < rhs);
+	}
+
 };
 
 #endif

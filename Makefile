@@ -1,51 +1,51 @@
 NAME = ft_containers
 
-SRC_DIR = ./src
-INC_DIR = ./inc
-OBJ_DIR = ./obj
+VCT_DIR = ./vector
+STK_DIR = ./stack
+MAP_DIR = ./map
+OUT_DIR = ./out
 
-SRC = vector.cpp
-vpath %.cpp $(SRC_DIR)
-INC = vector.hpp
-INC += ../utility/algorithm.hpp
-INC += ../utility/iterator.hpp
-INC += ../utility/type_traits.hpp
-INC += ../utility/utility.hpp
-vpath %.hpp $(INC_DIR)
-OBJ = $(addprefix  $(OBJ_DIR)/,$(SRC:%.cpp=%.o))
-vpath %.cpp $(SRC_DIR)
-
-IFLAGS = $(foreach inc, $(INC_DIR),-I$(inc))
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-
-CXX = clang++
 RM = rm -rf
-MV = mv
-MKD = mkdir -p
-STRT_STYLE = \033[1;32m
+
+STRT_STYLE = \x1b[34m
 END_STYLE = \033[0m
 
-all: $(NAME)
+all: vector stack map
 
-$(OBJ_DIR)/%.o: %.cpp
-	@($(MKD) $(OBJ_DIR))
-	@($(CXX) $(CXXFLAGS) -c $(IFLAGS) $< -o $@)
+vector:
+	@(make -C $(VCT_DIR))
+	@(echo "$(STRT_STYLE)Testing vector...$(END_STYLE)")
+	@-(make test -C $(VCT_DIR))
+	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
-$(NAME): $(OBJ)
-	@(echo "$(STRT_STYLE)Compiling...$(END_STYLE)")
-	@$(CXX) $(CXXFLAGS) $(IFLAGS)  -o $@ $(OBJ)
+stack:
+	@(make -C $(STK_DIR))
+	@(echo "$(STRT_STYLE)Testing stack...$(END_STYLE)")
+	@-(make test -C $(STK_DIR))
+	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
+
+map:
+	@(make -C $(MAP_DIR))
+	@(echo "$(STRT_STYLE)Testing map...$(END_STYLE)")
+	@-(make test -C $(MAP_DIR))
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
 clean:
 	@(echo "$(STRT_STYLE)Cleaning...$(END_STYLE)")
-	@($(RM) $(OBJ_DIR))
+	@(make clean -C $(VCT_DIR))
+	@(make clean -C $(STK_DIR))
+	@(make clean -C $(MAP_DIR))
+	@($(RM) $(OUT_DIR))
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
 fclean: clean
 	@(echo "$(STRT_STYLE)Fcleaning...$(END_STYLE)")
+	@(make fclean -C $(VCT_DIR))
+	@(make fclean -C $(STK_DIR))
+	@(make fclean -C $(MAP_DIR))
 	@($(RM) $(NAME))
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re map vector stack
