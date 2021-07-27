@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 13:03:35 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/26 12:43:51 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/27 11:26:48 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void    iterator_tests(ft::vector<VALUE_TYPE> &vct)
 
 int main()
 {
-    //intro();
+    // intro();
     // auto start = std::chrono::high_resolution_clock::now();
 
     std::cout << "--------------------------------------------------------" << std::endl;
@@ -855,7 +855,7 @@ int main()
         get_capacities(vct);
         get_capacities(vct2);
     }
-
+    
     // auto stop = std::chrono::high_resolution_clock::now();
     // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     // std::cout << "Time taken by function: "

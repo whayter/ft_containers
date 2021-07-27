@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/26 15:41:33 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/27 11:27:41 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -403,6 +403,8 @@ namespace ft
 
 			void reserve(size_type n)
 			{
+				if (n > this->max_size())
+					throw (std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size"));
 				if (n <= _capacity)
 					return ;
 				pointer new_container = _alloc.allocate(n);
