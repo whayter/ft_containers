@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 21:35:11 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/28 11:38:38 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/28 12:46:27 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ namespace ft
 	template <>
 	struct is_integral<char>: public ft::true_type {};
 
-	# ifndef __linux__
+# ifndef __linux__
 	
-		template <>
-		struct is_integral<char16_t>: public ft::true_type {};
-		
-		template <>
-		struct is_integral<char32_t>: public ft::true_type {};
+	template <>
+	struct is_integral<char16_t>: public ft::true_type {};
+	
+	template <>
+	struct is_integral<char32_t>: public ft::true_type {};
 
-	# endif
+# endif
 	
 	template <>
 	struct is_integral<wchar_t>: public ft::true_type {};
