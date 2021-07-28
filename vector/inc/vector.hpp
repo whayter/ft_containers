@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/28 08:58:14 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/28 11:37:55 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define VECTOR_HPP
 
 # include <memory>
+
+# ifdef __linux__
+#  include <cstddef>
+# endif
 
 # include "../../utility/utility.hpp"
 # include "../../utility/algorithm.hpp"

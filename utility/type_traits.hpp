@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 21:35:11 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/08 07:22:40 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/28 11:38:38 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define TYPE_TRAITS_HPP
 
 # include <stdint.h>
+
+# ifdef __linux__
+#  include <uchar.h>
+# endif
 
 namespace ft
 {

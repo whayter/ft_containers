@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 09:46:06 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/26 16:44:41 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/28 11:38:09 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define MAP_HPP
 
 # include <memory>
+
+# ifdef __linux__
+#  include <cstddef>
+#  include <limits>
+# endif
+
 # include "../../utility/utility.hpp"
 # include "../../utility/type_traits.hpp"
 # include "../../utility/iterator.hpp"
