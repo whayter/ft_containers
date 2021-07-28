@@ -51,12 +51,16 @@ namespace ft
 
 	template <>
 	struct is_integral<char>: public ft::true_type {};
+
+	# ifndef __linux__
 	
-	template <>
-	struct is_integral<char16_t>: public ft::true_type {};
-	
-	template <>
-	struct is_integral<char32_t>: public ft::true_type {};
+		template <>
+		struct is_integral<char16_t>: public ft::true_type {};
+		
+		template <>
+		struct is_integral<char32_t>: public ft::true_type {};
+
+	# endif
 	
 	template <>
 	struct is_integral<wchar_t>: public ft::true_type {};
