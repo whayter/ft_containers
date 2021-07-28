@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/27 11:27:41 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/07/28 08:58:14 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -507,6 +507,46 @@ namespace ft
 				return(iterator(_container + index));
 			}
 
+# ifdef __linux__
+
+			void insert(iterator pos, size_type n, const value_type& val)
+			{
+				size_type index = ft::distance(this->begin(), pos);
+				if (_capacity == 0)
+					this->reserve(n);
+				else if (_size + n > _capacity)
+				{
+					if (2 * _size >= _size + n)
+						this->reserve(_size * 2);
+					else
+						this->reserve(_size + n);
+				}
+				for (size_type i = 0; i < n; i++, index++)
+					this->insert(this->begin() + index, val);
+			}
+
+			template <class InputIterator>
+    		void insert(iterator pos, InputIterator first, InputIterator last,
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
+				InputIterator>::type* = NULL)
+			{
+				size_type n = ft::distance(first, last);
+				size_type index = ft::distance(this->begin(), pos);
+				if (_capacity == 0)
+					this->reserve(n);
+				else if (_size + n > _capacity)
+				{
+					if (2 * _size >= _size + n)
+						this->reserve(_size * 2);
+					else
+						this->reserve(_size + n);
+				}
+				for (; first != last; first++, index++)
+					this->insert(this->begin() + index, *first);
+			}
+
+# else
+
 			void insert(iterator pos, size_type n, const value_type& val)
 			{
 				size_type index = ft::distance(this->begin(), pos);
@@ -532,6 +572,8 @@ namespace ft
 				for (; first != last; first++, index++)
 					this->insert(this->begin() + index, *first);
 			}
+
+# endif
 
 			iterator erase(iterator position)
 			{	
