@@ -302,9 +302,9 @@ namespace ft
 			vector(const vector& x)
 			:
 				_alloc(x._alloc),
-				_container(_alloc.allocate(x._size)),
-				_size(x._size),
-				_capacity(x._capacity)
+				_container(NULL),
+				_size(0),
+				_capacity(0)
 			{
 				*this = x;
 			}
@@ -319,7 +319,11 @@ namespace ft
 			{
 				if (this == &x)
 					return *this;
-				this->clear();
+				if (!this->empty())
+				{
+					this->clear();
+					_alloc.deallocate(_container, _capacity);
+				}
 				_container = _alloc.allocate(x._size);
 				_size = x._size;
 				this->reserve(_size);
@@ -580,7 +584,7 @@ namespace ft
 # endif
 
 			iterator erase(iterator position)
-			{	
+			{
 				if (position >= this->end())
 					return position;
 				size_type index = ft::distance(this->begin(), position);

@@ -57,7 +57,7 @@ void get_capacities(ft::vector<T>& vector)
 }
 
 template <class T>
-void get_access(ft::vector<T> vector)
+void get_access(ft::vector<T>& vector)
 {
     std::cout << std::endl;
     std::cout << "-- access:" << std::endl;
@@ -69,7 +69,7 @@ void get_access(ft::vector<T> vector)
 }
 
 template <class T>
-void get_content(ft::vector<T> vector)
+void get_content(ft::vector<T>& vector)
 {
     std::cout << std::endl;
     std::cout << "-- content:" << std::endl;
@@ -409,7 +409,6 @@ int main()
         get_content(vector_2);
         std::cout << std::endl;
     }
-
     
     std::cout << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
