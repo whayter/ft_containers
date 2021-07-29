@@ -54,8 +54,8 @@ void get_info(ft::stack<T>& stack)
     std::cout << std::setw(21) << std::left;
     std::cout << "top: " << stack.top() << std::endl;
 }
-template <class T, class CONTAINER>
 
+template <class T, class CONTAINER>
 void get_info(ft::stack<T, CONTAINER>& stack)
 {
     std::cout << std::endl;
@@ -78,8 +78,8 @@ void get_content(ft::stack<T> stack)
     for (; !stack.empty(); stack.pop())
         std::cout << stack.top() << std::endl;
 }
-template <class T, class CONTAINER>
 
+template <class T, class CONTAINER>
 void get_content(ft::stack<T, CONTAINER> stack)
 {
     std::cout << std::endl;
@@ -90,7 +90,7 @@ void get_content(ft::stack<T, CONTAINER> stack)
 }
 
 template <class T>
-void compare(ft::stack<T> left, ft::stack<T> right)
+void compare(ft::stack<T>& left, ft::stack<T>& right)
 {
     if (left == right)
         std::cout << "left = right" << std::endl;
@@ -107,7 +107,7 @@ void compare(ft::stack<T> left, ft::stack<T> right)
 }
 
 template <class T, class CONTAINER>
-void compare(ft::stack<T, CONTAINER> left, ft::stack<T, CONTAINER> right)
+void compare(ft::stack<T, CONTAINER>& left, ft::stack<T, CONTAINER>& right)
 {
     if (left == right)
         std::cout << "left = right" << std::endl;
@@ -268,14 +268,13 @@ int main()
         stack.push("ok");
         stack.push("yes");
         get_info(stack);
-        get_content(stack);
+        for (; !stack.empty(); stack.pop())
+            std::cout << stack.top() << std::endl;
         stack.push("lalala");
-        stack.push("..");  
+        stack.push("..");
         get_info(stack);
-        get_content(stack);      
-        stack.pop();
-        get_info(stack);
-        get_content(stack); 
+        for (; !stack.empty(); stack.pop())
+            std::cout << stack.top() << std::endl;
     }
 
     std::cout << std::endl;
@@ -288,10 +287,8 @@ int main()
         stack.push("ok azertyuiopqsdfghjklmwxcvbn,;azrtyu");
         stack.push("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         get_info(stack);
-        get_content(stack);   
-        stack.pop();
-        get_info(stack);
-        get_content(stack); 
+        for (; !stack.empty(); stack.pop())
+            std::cout << stack.top() << std::endl;
     }
 
     std::cout << std::endl;
@@ -304,7 +301,6 @@ int main()
         stack.push(3);
         stack.push(7);
         stack.push(5);
-
         get_info(stack);
         get_content(stack);   
         stack.pop();
