@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/28 12:45:30 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/10/15 14:19:22 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # ifdef __linux__
 #  include <cstddef>
+#  include <stdexcept>
 # endif
 
 # include "../../utility/utility.hpp"
