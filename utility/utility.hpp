@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 12:46:40 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/25 00:40:10 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/10/17 12:56:11 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ namespace ft
 
 			pair(): first(), second() {}
 
+			pair(const pair& pr): first(pr.first), second(pr.second) {}
+
 			template<class U, class V>
 			pair(const pair<U, V>& pr): first(pr.first), second(pr.second) {}
 
@@ -48,6 +50,7 @@ namespace ft
 				this->second = pr.second;
 				return *this;
 			}
+			~pair() {}
 	};
 
 	/* ---------------------------------------------------------------------- */
@@ -94,7 +97,7 @@ namespace ft
 	/* --- make_pair function ----------------------------------------------- */
 
 	template <class T1, class T2>
-	pair<T1,T2> make_pair (T1 x, T2 y)
+	pair<T1,T2> make_pair(T1 x, T2 y)
 	{
 		return pair<T1,T2>(x,y);
 	}
