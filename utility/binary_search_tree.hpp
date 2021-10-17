@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2021/10/17 13:13:55 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/10/17 15:38:29 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,6 +322,11 @@ namespace ft
 			size_type size() const
 			{
 				return _size;
+			}
+
+			size_type max_size() const
+			{
+				return allocator_type().max_size();
 			}
 			
 		/* --- Element access ----------------------------------------------- */

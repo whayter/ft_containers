@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 09:46:06 by hwinston          #+#    #+#             */
-/*   Updated: 2021/10/16 09:48:07 by hwinston         ###   ########.fr       */
+/*   Updated: 2021/10/17 15:38:37 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,11 @@ namespace ft
 
 			size_type max_size(void) const
 			{
-				//return allocator_type().max_size();
+				return _tree.max_size();
+				
+				// return allocator_type().max_size();
 
-				return std::numeric_limits<difference_type>::max() / (sizeof(ft::mapNode<value_type>) / 2);
+				// return std::numeric_limits<difference_type>::max() / (sizeof(ft::mapNode<value_type>) / 2);
 			}
 
 		/* --- Element access ----------------------------------------------- */
