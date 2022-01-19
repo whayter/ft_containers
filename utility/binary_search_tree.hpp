@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2022/01/19 17:02:58 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/19 17:25:32 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -543,9 +543,9 @@ namespace ft
 				while (1)
 				{
 
-					std::cout << "  pair = " << pair.first << std::endl;
-					std::cout << "cursor = " << cursor->value.first << std::endl;	
-					std::cout << "  comp = " << _comp(pair.first, cursor->value.first) << std::endl;
+					// std::cout << "  pair = " << pair.first << std::endl;
+					// std::cout << "cursor = " << cursor->value.first << std::endl;	
+					// std::cout << "  comp = " << _comp(pair.first, cursor->value.first) << std::endl;
 				
 					if (pair.first == cursor->value.first)
 						return _head;
