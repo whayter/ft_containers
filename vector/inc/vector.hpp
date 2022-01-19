@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2022/01/18 18:17:46 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/19 18:54:55 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,13 +327,10 @@ namespace ft
 				}
 				_container = _alloc.allocate(x._size);
 				_size = x._size;
-				// this->reserve(_size);
-				iterator it = this->begin();
-				for (const_iterator x_it = x.begin(); x_it != x.end(); x_it++)
-				{
-					_alloc.construct(it.base(), *x_it);
-					it++;
-				}
+				if (x._size > _capacity)
+					_capacity = x._size;		
+				for (size_type i = 0; i < x._size; i++)
+					_alloc.construct(_container + i, x._container[i]);
 				return *this;
 			}
 

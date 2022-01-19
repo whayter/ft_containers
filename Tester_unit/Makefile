@@ -55,8 +55,7 @@ vpath %.hpp $(INC_DIR)
 SRC = main.cpp
 
 # Our tests
-SRC+= TestsVector.cpp TestsStack.cpp TestsMap.cpp
-
+SRC+= TestsVector.cpp TestsStack.cpp TestsMap.cpp 
 
 OBJ = $(addprefix  $(OBJ_DIR)/,$(SRC:%.cpp=%.o))
 vpath %.cpp $(SRCS_DIR)

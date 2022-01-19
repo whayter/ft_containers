@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 09:46:06 by hwinston          #+#    #+#             */
-/*   Updated: 2022/01/19 16:54:06 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/19 17:45:53 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,14 @@ namespace ft
 
 			explicit map(const key_compare& comp = key_compare(),
             	const allocator_type& alloc = allocator_type()):
-				 _alloc(alloc), _comp(comp), _tree() {}
+				 _alloc(alloc), _comp(comp), _tree(comp) {}
 
 			template <class InputIterator>
   			map(InputIterator first, InputIterator last,
 				const key_compare& comp = key_compare(),
        			const allocator_type& alloc = allocator_type(),
 				typename ft::enable_if<!ft::is_integral<InputIterator>::value,
-				InputIterator>::type* = NULL): _alloc(alloc), _comp(comp), _tree()
+				InputIterator>::type* = NULL): _alloc(alloc), _comp(comp), _tree(comp)
 			{
 				this->insert(first, last);
 			}
