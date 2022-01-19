@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2021/10/17 15:38:29 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/19 17:02:58 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,12 +148,12 @@ namespace ft
 				return _head;
 			}
 
-			bool operator==(const mapIterator& x)
+			bool operator==(const mapIterator& x) const
 			{
 				return _node == x._node;
 			}
 
-			bool operator!=(const mapIterator& x)
+			bool operator!=(const mapIterator& x) const
 			{
 				return _node != x._node;
 			}
@@ -367,7 +367,7 @@ namespace ft
 					_alloc.construct(new_node, pair);
 					new_node->parent = cursor;
 					new_node->left = new_node;
-					new_node->right = new_node;			
+					new_node->right = new_node;
 					if (_comp(cursor->value.first, pair.first))
 					{
 						cursor->right = new_node;
@@ -495,6 +495,13 @@ namespace ft
 				x._size = tmp_size;
 			}
 
+		/* --- Allocator ---------------------------------------------------- */
+
+			allocator_type get_allocator() const
+			{
+				return _alloc;
+			}
+
 		/* --- private member functions ------------------------------------- */
 
 		private:
@@ -532,10 +539,16 @@ namespace ft
 				if (this->empty())
 					return NULL;
 				node_type* cursor = this->root();
+
 				while (1)
 				{
+
+					std::cout << "  pair = " << pair.first << std::endl;
+					std::cout << "cursor = " << cursor->value.first << std::endl;	
+					std::cout << "  comp = " << _comp(pair.first, cursor->value.first) << std::endl;
+				
 					if (pair.first == cursor->value.first)
-						return _head;						
+						return _head;
 					else if (_comp(pair.first, cursor->value.first))
 					{
 						if (cursor->is_leaf("left"))

@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 09:46:06 by hwinston          #+#    #+#             */
-/*   Updated: 2021/10/17 16:08:34 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/19 16:54:06 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,6 +321,14 @@ namespace ft
 				iterator up = this->upper_bound(k);
 				return ft::make_pair(lo, up);
 			}
+
+		/* --- Allocator ---------------------------------------------------- */
+
+			allocator_type get_allocator() const
+			{
+				return _tree.get_allocator();
+				// return _alloc;
+			}
 	};
 	
 	/* --- Non-member functions --------------------------------------------- */
@@ -367,6 +375,12 @@ namespace ft
 		const ft::map<Key, T, Compare, Alloc> &rhs)
 	{
 		return !(lhs < rhs);
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y)
+	{
+		x.swap(y);
 	}
 
 };

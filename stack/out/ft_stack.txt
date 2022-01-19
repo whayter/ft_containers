@@ -1,0 +1,228 @@
+--------------------------------------------------------
+-------------------- push / pop (1) --------------------
+
+
+--- info:
+
+empty:               0
+size:                4
+top:                 4
+
+--- content:
+
+4
+3
+2
+1
+
+--- info:
+
+empty:               0
+size:                2
+top:                 2
+
+--- content:
+
+2
+1
+--------------------------------------------------------
+-------------------- push / pop (2) --------------------
+
+
+--- info:
+
+empty:               0
+size:                4
+top:                 4
+
+--- content:
+
+4
+3
+2
+1
+
+--- info:
+
+empty:               0
+size:                2
+top:                 2
+
+--- content:
+
+2
+1
+
+empty : 1
+
+--- content:
+
+
+--------------------------------------------------------
+----------- specified container construction -----------
+
+
+--- info:
+
+empty:               0
+size:                16
+top:                 4
+
+--- content:
+
+4
+3
+2
+1
+42
+42
+42
+42
+42
+42
+42
+42
+42
+42
+42
+42
+
+--- info:
+
+empty:               0
+size:                14
+top:                 2
+
+--- content:
+
+2
+1
+42
+42
+42
+42
+42
+42
+42
+42
+42
+42
+42
+42
+
+vector content:  42 42 42 42 42 42 42 42 42 42 42 42
+
+--------------------------------------------------------
+------------------------- copy -------------------------
+
+--- stack_1:
+
+--- info:
+
+empty:               0
+size:                4
+top:                 4
+
+--- content:
+
+4
+3
+2
+1
+--- stack_2:
+
+--- info:
+
+empty:               0
+size:                4
+top:                 4
+
+--- content:
+
+4
+3
+2
+1
+
+--------------------------------------------------------
+---------------------- empty copy ----------------------
+
+--- stack_1:
+empty : 1
+
+--- content:
+
+--- stack_2:
+empty : 1
+
+--- content:
+
+
+--------------------------------------------------------
+---------------------- comparison ----------------------
+
+left = right
+left <= right
+left >= right
+left != right
+left < right
+left <= right
+
+--------------------------------------------------------
+------------- value_type = std::string (1) -------------
+
+
+--- info:
+
+empty:               0
+size:                2
+top:                 yes
+yes
+ok
+
+--- info:
+
+empty:               0
+size:                2
+top:                 ..
+..
+lalala
+
+--------------------------------------------------------
+------------- value_type = std::string (2) -------------
+
+
+--- info:
+
+empty:               0
+size:                2
+top:                 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+ok azertyuiopqsdfghjklmwxcvbn,;azrtyu
+
+--------------------------------------------------------
+------------- using std::deque as container ------------
+
+
+--- info:
+
+empty:               0
+size:                3
+top:                 5
+
+--- content:
+
+5
+7
+3
+
+--- info:
+
+empty:               0
+size:                2
+top:                 7
+
+--- content:
+
+7
+3

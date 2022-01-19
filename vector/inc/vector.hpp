@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2021/10/15 14:19:22 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/18 18:17:46 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,7 @@ namespace ft
 					_alloc.construct(_container + i, *first);
 			}
 
-			vector(const vector& x)
+			vector(const vector& x) 
 			:
 				_alloc(x._alloc),
 				_container(NULL),
@@ -327,7 +327,7 @@ namespace ft
 				}
 				_container = _alloc.allocate(x._size);
 				_size = x._size;
-				this->reserve(_size);
+				// this->reserve(_size);
 				iterator it = this->begin();
 				for (const_iterator x_it = x.begin(); x_it != x.end(); x_it++)
 				{
@@ -629,6 +629,14 @@ namespace ft
 					_alloc.destroy(_container + i);
 				_size = 0;
 			}
+
+	/* --- Allocator -------------------------------------------------------- */
+
+			allocator_type get_allocator() const
+			{
+				return _alloc;
+			}
+
 	};
 
 	/* --- Non-member functions --------------------------------------------- */
