@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2022/01/26 11:06:16 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/26 11:28:31 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,9 +230,13 @@ namespace ft
 	/* ---------------------------------------------------------------------- */
 	/* --- mapTree class ---------------------------------------------------- */
 
+	// template <	class Key, class T, class Compare = std::less<Key>,
+	// 			class Pair = ft::pair<const Key, T>, class Node = ft::mapNode<Pair>,
+	// 			class Alloc = std::allocator<Node> >
+
 	template <	class Key, class T, class Compare = std::less<Key>,
 				class Pair = ft::pair<const Key, T>, class Node = ft::mapNode<Pair>,
-				class Alloc = std::allocator<Node> >
+				class Alloc = std::allocator<Pair> >
 	class mapTree
 	{
 		/* --- member types ------------------------------------------------- */
@@ -244,11 +248,11 @@ namespace ft
 			typedef Pair												value_type;
 			typedef Node												node_type;
 			typedef Compare												key_compare;
-			typedef Alloc												allocator_type;
+			// typedef Alloc												allocator_type;
+			typedef typename Alloc::template rebind<Node>::other		allocator_type;
 			typedef typename ft::mapIterator<Pair, Node> 				iterator;
 			typedef typename ft::mapIterator<const Pair, const Node> 	const_iterator;
 			typedef size_t												size_type;
-			// typedef typename Alloc::template rebind<Node>::other		alloc;
 		
 		/* --- member variables --------------------------------------------- */
 
