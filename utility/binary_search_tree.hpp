@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2022/01/19 17:25:32 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/26 11:06:16 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ namespace ft
 			typedef typename ft::mapIterator<Pair, Node> 				iterator;
 			typedef typename ft::mapIterator<const Pair, const Node> 	const_iterator;
 			typedef size_t												size_type;
+			// typedef typename Alloc::template rebind<Node>::other		alloc;
 		
 		/* --- member variables --------------------------------------------- */
 
