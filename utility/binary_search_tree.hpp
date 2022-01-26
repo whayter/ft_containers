@@ -230,13 +230,8 @@ namespace ft
 	/* ---------------------------------------------------------------------- */
 	/* --- mapTree class ---------------------------------------------------- */
 
-	// template <	class Key, class T, class Compare = std::less<Key>,
-	// 			class Pair = ft::pair<const Key, T>, class Node = ft::mapNode<Pair>,
-	// 			class Alloc = std::allocator<Node> >
-
-	template <	class Key, class T, class Compare = std::less<Key>,
-				class Pair = ft::pair<const Key, T>, class Node = ft::mapNode<Pair>,
-				class Alloc = std::allocator<Pair> >
+	template <	class Key, class T, class Alloc, class Compare = std::less<Key>,
+				class Pair = ft::pair<const Key, T>, class Node = ft::mapNode<Pair> >
 	class mapTree
 	{
 		/* --- member types ------------------------------------------------- */
@@ -248,8 +243,8 @@ namespace ft
 			typedef Pair												value_type;
 			typedef Node												node_type;
 			typedef Compare												key_compare;
-			// typedef Alloc												allocator_type;
-			typedef typename Alloc::template rebind<Node>::other		allocator_type;
+			typedef Alloc												allocator_type;
+			typedef typename Alloc::template rebind<Node>::other		node_allocator_type;
 			typedef typename ft::mapIterator<Pair, Node> 				iterator;
 			typedef typename ft::mapIterator<const Pair, const Node> 	const_iterator;
 			typedef size_t												size_type;
@@ -258,7 +253,7 @@ namespace ft
 
 		private:
 			
-			allocator_type											_alloc;
+			node_allocator_type										_alloc;
 			key_compare												_comp;
 			node_type*												_head;
 			size_type												_size;
@@ -331,7 +326,7 @@ namespace ft
 
 			size_type max_size() const
 			{
-				return allocator_type().max_size();
+				return _alloc.max_size();
 			}
 			
 		/* --- Element access ----------------------------------------------- */
