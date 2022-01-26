@@ -20,11 +20,11 @@
 #  include <limits>
 # endif
 
-# include "../../utility/utility.hpp"
-# include "../../utility/type_traits.hpp"
-# include "../../utility/iterator.hpp"
-# include "../../utility/algorithm.hpp"
-# include "../../utility/binary_search_tree.hpp"
+# include "utility.hpp"
+# include "type_traits.hpp"
+# include "iterator.hpp"
+# include "algorithm.hpp"
+# include "binary_search_tree.hpp"
 
 namespace ft
 {

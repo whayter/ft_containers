@@ -1,51 +1,64 @@
+ifdef STD
+NAME = std_containers
+else
 NAME = ft_containers
+endif
 
-VCT_DIR = ./vector
-STK_DIR = ./stack
-MAP_DIR = ./map
-OUT_DIR = ./out
+INC_DIR = ./includes
+SRC_DIR = ./sources
+OBJ_DIR = ./obj
 
-RM = rm -rf
+SRC = vector.cpp stack.cpp map.cpp main.cpp
+vpath %.cpp $(SRC_DIR)
 
-STRT_STYLE = \033[0;34m
+INC = vector.hpp stack.hpp map.hpp
+INC += binary_search_tree.hpp
+INC += algorithm.hpp
+INC += iterator.hpp
+INC += type_traits.hpp
+INC += utility.hpp
+vpath %.hpp $(INC_DIR)
+
+OBJ = $(addprefix  $(OBJ_DIR)/,$(SRC:%.cpp=%.o))
+vpath %.cpp $(SRC_DIR)
+
+IFLAGS = $(foreach inc, $(INC_DIR),-I$(inc))
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-Wno-c++11-extensions
+
+ifdef STD
+CXXFLAGS += -D STD=1
+endif
+
+
+STRT_STYLE = \033[0;32m
 END_STYLE = \033[0m
 
-all: vector stack map
+all: $(NAME)
 
-vector:
-	@(make -C $(VCT_DIR) --no-print-directory)
-	@(echo "$(STRT_STYLE)Testing vector...$(END_STYLE)")
-	@-(make test -C $(VCT_DIR) --no-print-directory)
-	@(echo "$(STRT_STYLE)Done. $(END_STYLE)")
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@
 
-stack:
-	@(make -C $(STK_DIR) --no-print-directory)
-	@(echo "$(STRT_STYLE)Testing stack...$(END_STYLE)")
-	@-(make test -C $(STK_DIR) --no-print-directory)
-	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
+$(NAME): $(OBJ)
+	@echo "$(STRT_STYLE)Compiling...$(END_STYLE)"
+	$(CXX) $(CXXFLAGS) $(IFLAGS) $(OBJ) -o $@
+	@echo "$(STRT_STYLE)Done.$(END_STYLE)"
 
-map:
-	@(make -C $(MAP_DIR) --no-print-directory)
-	@(echo "$(STRT_STYLE)Testing map...$(END_STYLE)")
-	@-(make test -C $(MAP_DIR) --no-print-directory)
-	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
+test:
+	@(sh test.sh)
 
 clean:
-	@(echo "$(STRT_STYLE)Cleaning...$(END_STYLE)")
-	@(make clean -C $(VCT_DIR) --no-print-directory)
-	@(make clean -C $(STK_DIR) --no-print-directory)
-	@(make clean -C $(MAP_DIR) --no-print-directory)
-	@($(RM) $(OUT_DIR))
+	@echo "$(STRT_STYLE)Cleaning...$(END_STYLE)"
+	@rm -rf $(OBJ_DIR)
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
 fclean: clean
-	@(echo "$(STRT_STYLE)Fcleaning...$(END_STYLE)")
-	@(make fclean -C $(VCT_DIR) --no-print-directory)
-	@(make fclean -C $(STK_DIR) --no-print-directory)
-	@(make fclean -C $(MAP_DIR) --no-print-directory)
-	@($(RM) $(NAME))
+	@echo "$(STRT_STYLE)Fcleaning...$(END_STYLE)"
+	@rm -rf $(NAME)
+	@rm -rf std_containers
+	@rm -rf out
 	@(echo "$(STRT_STYLE)Done.$(END_STYLE)")
 
 re: fclean all
 
-.PHONY: all clean fclean re map vector stack
+.PHONY: all clean fclean re test

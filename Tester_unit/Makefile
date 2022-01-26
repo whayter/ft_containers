@@ -40,10 +40,7 @@ NAME = tests
 SRC_DIR = ./src 
 BUILD_DIR = ./build
 INC_DIR = $(shell find . -type d -name "includes")
-INC_DIR+= $(shell find ../vector -type d)
-INC_DIR+= $(shell find ../utility -type d )
-INC_DIR+= $(shell find ../stack -type d )
-INC_DIR+= $(shell find ../map -type d )
+INC_DIR+= $(shell find ../includes -type d)
 
 OBJ_DIR = obj
 
@@ -56,6 +53,7 @@ SRC = main.cpp
 
 # Our tests
 SRC+= TestsVector.cpp TestsStack.cpp TestsMap.cpp 
+SRC+= TestsAlgorithm.cpp
 
 OBJ = $(addprefix  $(OBJ_DIR)/,$(SRC:%.cpp=%.o))
 vpath %.cpp $(SRCS_DIR)

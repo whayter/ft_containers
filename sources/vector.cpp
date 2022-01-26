@@ -19,7 +19,7 @@
     #include <vector>
     namespace ft = std;
 #else
-    #include "../inc/vector.hpp"
+    #include "vector.hpp"
 #endif
 
 #define VALUE_TYPE int
@@ -28,20 +28,16 @@
 /* ************************************************************************** */
 /* ************************************************************************** */
 
-void intro()
+static void intro()
 {
     std::cout << "--------------------------------------------------------" << std::endl;
-    #ifdef STD
-        std::cout << "----------------------- std::vector --------------------" << std::endl;
-    #else
-        std::cout << "----------------------- ft::vector ---------------------" << std::endl;
-    #endif
+    std::cout << "-------------------------- vector ----------------------" << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << std::endl;
 }
 
 template <class T>
-void get_capacities(ft::vector<T>& vector)
+static void get_capacities(ft::vector<T>& vector)
 {
     std::cout << std::endl;
     std::cout << "-- capacities:" << std::endl;
@@ -57,7 +53,7 @@ void get_capacities(ft::vector<T>& vector)
 }
 
 template <class T>
-void get_access(ft::vector<T>& vector)
+static void get_access(ft::vector<T>& vector)
 {
     std::cout << std::endl;
     std::cout << "-- access:" << std::endl;
@@ -69,7 +65,7 @@ void get_access(ft::vector<T>& vector)
 }
 
 template <class T>
-void get_content(ft::vector<T>& vector)
+static void get_content(ft::vector<T>& vector)
 {
     std::cout << std::endl;
     std::cout << "-- content:" << std::endl;
@@ -96,7 +92,7 @@ void get_content(ft::vector<T>& vector)
     std::cout << std::endl;
 }
 
-void    iterator_tests(ft::vector<VALUE_TYPE> &vct)
+static void    iterator_tests(ft::vector<VALUE_TYPE> &vct)
 {
         ft::vector<VALUE_TYPE>::iterator it = vct.begin();
         ft::vector<VALUE_TYPE>::iterator it_tmp;
@@ -122,9 +118,9 @@ void    iterator_tests(ft::vector<VALUE_TYPE> &vct)
 /* ----------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------- */
 
-int main()
+int test_vector()
 {
-    // intro();
+    intro();
     // auto start = std::chrono::high_resolution_clock::now();
 
     std::cout << "--------------------------------------------------------" << std::endl;

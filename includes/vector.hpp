@@ -20,10 +20,10 @@
 #  include <stdexcept>
 # endif
 
-# include "../../utility/utility.hpp"
-# include "../../utility/algorithm.hpp"
-# include "../../utility/type_traits.hpp"
-# include "../../utility/iterator.hpp"
+# include "utility.hpp"
+# include "algorithm.hpp"
+# include "type_traits.hpp"
+# include "iterator.hpp"
 
 namespace ft
 {
@@ -605,7 +605,7 @@ namespace ft
 
 			void swap(vector& x)
 			{
-				if (*this == x)
+				if (this == &x)
 					return ;
 				
 				pointer		tmp_container = x._container;

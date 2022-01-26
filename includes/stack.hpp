@@ -13,7 +13,7 @@
 #ifndef STACK_HPP
 # define STACK_HPP
 
-# include "../../vector/inc/vector.hpp"
+# include "vector.hpp"
 
 namespace ft
 {
@@ -33,9 +33,11 @@ namespace ft
 
 		/* --- Member variables --------------------------------------------- */
 
-		private:
+		protected:
 
-			container_type			_container;
+			container_type			c;
+
+		private:
 
 			template <class TY, class C>
 			friend bool	operator==(const stack<TY, C> &lhs, const stack<TY, C> &rhs);
@@ -48,36 +50,36 @@ namespace ft
 		public:	
 
 			explicit stack(const container_type& ctnr = container_type())
-			: _container(ctnr) {}
+			: c(ctnr) {}
 
 			bool empty() const
 			{
-				return _container.empty();
+				return c.empty();
 			}
 
 			size_type size() const
 			{
-				return _container.size();
+				return c.size();
 			}
 
 			value_type& top()
 			{
-				return _container.back();
+				return c.back();
 			}
 
 			const value_type& top() const
 			{
-				return _container.back();
+				return c.back();
 			}
 
 			void push(const value_type& val)
 			{
-				_container.push_back(val);
+				c.push_back(val);
 			}
 
 			void pop()
 			{
-				_container.pop_back();
+				c.pop_back();
 			}
 	};
 
@@ -87,7 +89,7 @@ namespace ft
 	template <class T, class Container>
 	bool operator==(const stack<T,Container>& lhs, const stack<T,Container>& rhs)
 	{
-		return lhs._container == rhs._container;
+		return lhs.c == rhs.c;
 	}
 
 	template <class T, class Container>
@@ -99,7 +101,7 @@ namespace ft
 	template <class T, class Container>
 	bool operator<(const stack<T,Container>& lhs, const stack<T,Container>& rhs)
 	{
-		return lhs._container < rhs._container;
+		return lhs.c < rhs.c;
 	}
 	
 	template <class T, class Container>

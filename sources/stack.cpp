@@ -20,7 +20,7 @@
     #include <stack>
     namespace ft = std;
 #else
-    #include "../inc/stack.hpp"
+    #include "stack.hpp"
 #endif
 
 #define VALUE_TYPE int
@@ -29,20 +29,16 @@
 /* ************************************************************************** */
 /* ************************************************************************** */
 
-void intro()
+static void intro()
 {
     std::cout << "--------------------------------------------------------" << std::endl;
-    #ifdef STD
-        std::cout << "------------------------ std::stack --------------------" << std::endl;
-    #else
-        std::cout << "------------------------ ft::stack ---------------------" << std::endl;
-    #endif
+    std::cout << "-------------------------- stack -----------------------" << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << std::endl;
 }
 
 template <class T>
-void get_info(ft::stack<T>& stack)
+static void get_info(ft::stack<T>& stack)
 {
     std::cout << std::endl;
     std::cout << "--- info:" << std::endl;
@@ -56,7 +52,7 @@ void get_info(ft::stack<T>& stack)
 }
 
 template <class T, class CONTAINER>
-void get_info(ft::stack<T, CONTAINER>& stack)
+static void get_info(ft::stack<T, CONTAINER>& stack)
 {
     std::cout << std::endl;
     std::cout << "--- info:" << std::endl;
@@ -70,7 +66,7 @@ void get_info(ft::stack<T, CONTAINER>& stack)
 }
 
 template <class T>
-void get_content(ft::stack<T> stack)
+static void get_content(ft::stack<T> stack)
 {
     std::cout << std::endl;
     std::cout << "--- content:" << std::endl;
@@ -80,7 +76,7 @@ void get_content(ft::stack<T> stack)
 }
 
 template <class T, class CONTAINER>
-void get_content(ft::stack<T, CONTAINER> stack)
+static void get_content(ft::stack<T, CONTAINER> stack)
 {
     std::cout << std::endl;
     std::cout << "--- content:" << std::endl;
@@ -90,7 +86,7 @@ void get_content(ft::stack<T, CONTAINER> stack)
 }
 
 template <class T>
-void compare(ft::stack<T>& left, ft::stack<T>& right)
+static void compare(ft::stack<T>& left, ft::stack<T>& right)
 {
     if (left == right)
         std::cout << "left = right" << std::endl;
@@ -107,7 +103,7 @@ void compare(ft::stack<T>& left, ft::stack<T>& right)
 }
 
 template <class T, class CONTAINER>
-void compare(ft::stack<T, CONTAINER>& left, ft::stack<T, CONTAINER>& right)
+static void compare(ft::stack<T, CONTAINER>& left, ft::stack<T, CONTAINER>& right)
 {
     if (left == right)
         std::cout << "left = right" << std::endl;
@@ -127,9 +123,9 @@ void compare(ft::stack<T, CONTAINER>& left, ft::stack<T, CONTAINER>& right)
 /* ************************************************************************** */
 /* ************************************************************************** */
 
-int main()
+int test_stack()
 {
-    // intro();
+    intro();
     // auto start = std::chrono::high_resolution_clock::now();
 
     std::cout << "--------------------------------------------------------" << std::endl;

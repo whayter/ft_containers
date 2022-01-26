@@ -20,8 +20,8 @@
     #include <map>
     namespace ft = std;
 #else
-    #include "../inc/map.hpp"
-    #include "../../utility/binary_search_tree.hpp"
+    #include "map.hpp"
+    #include "binary_search_tree.hpp"
 #endif
 
 #define VALUE_TYPE_1 int
@@ -33,19 +33,15 @@ typedef ft::map<const VALUE_TYPE_1, VALUE_TYPE_2> map_type;
 /* ************************************************************************** */
 /* ************************************************************************** */
 
-void intro()
+static void intro()
 {
     std::cout << "--------------------------------------------------------" << std::endl;
-    #ifdef STD
-        std::cout << "------------------------- std::map ---------------------" << std::endl;
-    #else
-        std::cout << "------------------------- ft::map ----------------------" << std::endl;
-    #endif
+    std::cout << "--------------------------- map ------------------------" << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << std::endl;
 }
 
-void get_info(map_type& map)
+static void get_info(map_type& map)
 {
     std::cout << std::endl;
     std::cout << "--- info:" << std::endl;
@@ -56,7 +52,7 @@ void get_info(map_type& map)
     std::cout << "max_size: " << map.max_size() << std::endl;
 }
 
-void get_access(map_type& map)
+static void get_access(map_type& map)
 {
     std::cout << std::endl;
     std::cout << "--- access:" << std::endl;
@@ -75,7 +71,7 @@ void get_access(map_type& map)
     // std::cout << " => " << map.rend()->second << std::endl;
 }
 
-void get_content(map_type& map)
+static void get_content(map_type& map)
 {
     std::cout << std::endl;
     std::cout << "--- content:" << std::endl;
@@ -90,7 +86,7 @@ void get_content(map_type& map)
 }
 
 template <class It>
-void print_it(map_type& m, It it)
+static void print_it(map_type& m, It it)
 {
     if (it == m.end())
         std::cout << "end";
@@ -100,13 +96,13 @@ void print_it(map_type& m, It it)
 }
 
 struct ft_more {
-	bool operator()(const VALUE_TYPE_1 &first, const VALUE_TYPE_1 &second) const {
+    bool operator()(const VALUE_TYPE_1 &first, const VALUE_TYPE_1 &second) const {
 		return (first > second);
 	}
 };
 
 template <class MAP>
-void	cmp(const MAP &lhs, const MAP &rhs)
+static void	cmp(const MAP &lhs, const MAP &rhs)
 {
 	static int i = 0;
 
@@ -120,9 +116,9 @@ void	cmp(const MAP &lhs, const MAP &rhs)
 /* ************************************************************************** */
 /* ************************************************************************** */
 
-int main()
+int test_map()
 {
-    // intro();
+    intro();
     // auto start = std::chrono::high_resolution_clock::now();
 
     std::cout << "--------------------------------------------------------" << std::endl;
