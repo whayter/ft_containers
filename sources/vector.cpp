@@ -6,14 +6,13 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 13:03:35 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/28 12:35:15 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:43:17 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <iomanip>
 #include <list>
-//#include <chrono>
 
 #ifdef STD
     #include <vector>
@@ -30,6 +29,7 @@
 
 static void intro()
 {
+    std::cout << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << "-------------------------- vector ----------------------" << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
@@ -121,8 +121,7 @@ static void    iterator_tests(ft::vector<VALUE_TYPE> &vct)
 int test_vector()
 {
     intro();
-    // auto start = std::chrono::high_resolution_clock::now();
-
+    
     std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << "----------------- default constructor ------------------" << std::endl;
     std::cout << std::endl;
@@ -826,6 +825,20 @@ int test_vector()
 
     std::cout << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "---------------------- hard test 8 ---------------------" << std::endl;
+    std::cout << std::endl; 
+
+    {
+        ft::vector<VALUE_TYPE> vct;
+        for (int i = 0; i < 100000; i++)
+            vct.push_back(i);
+        ft::vector<VALUE_TYPE> vct2(vct);
+        get_capacities(vct);
+        get_capacities(vct2);
+    }
+
+    std::cout << std::endl;
+    std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << "-------------------- vector<string> --------------------" << std::endl;
     std::cout << std::endl; 
     
@@ -850,11 +863,6 @@ int test_vector()
         get_capacities(vct);
         get_capacities(vct2);
     }
-    
-    // auto stop = std::chrono::high_resolution_clock::now();
-    // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    // std::cout << "Time taken by function: "
-    //      << duration.count() << " microseconds" << std::endl;
-         
+
     return 0;
 }

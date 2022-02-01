@@ -1,3 +1,6 @@
+#include <iostream>
+#include <iomanip>
+
 int test_vector();
 int test_stack();
 int test_map();

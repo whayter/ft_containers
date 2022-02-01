@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 09:46:06 by hwinston          #+#    #+#             */
-/*   Updated: 2022/01/26 11:28:28 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/27 19:34:53 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ namespace ft
 		public:
 
 			explicit map(const key_compare& comp = key_compare(),
-            	const allocator_type& alloc = allocator_type()):
-				 _alloc(alloc), _comp(comp), _tree(comp) {}
+				const allocator_type& alloc = allocator_type())
+			: _alloc(alloc), _comp(comp), _tree(comp) {}
 
 			template <class InputIterator>
   			map(InputIterator first, InputIterator last,
@@ -104,20 +104,25 @@ namespace ft
 				this->insert(first, last);
 			}
 
-			map(const map& x): _alloc(x._alloc), _comp(x._comp), _tree()
+			map(const map& x): _alloc(x._alloc), _comp(x._comp), _tree(x._comp)
 			{
 				this->insert(x.begin(), x.end());
 			}
 
+			// map(const map& x): _alloc(x._alloc), _comp(x._comp), _tree(x._tree) {}
+
 			~map()
 			{
-				this->clear();
+					this->clear();
 			}
 
 			map& operator=(const map& x)
 			{
-				this->clear();
-				this->insert(x.begin(), x.end());
+				if (this != &x)
+				{
+					this->clear();
+					this->insert(x.begin(), x.end());
+				}
 				return *this;
 			}
 
@@ -222,8 +227,8 @@ namespace ft
 			}
 
 			void erase(iterator first, iterator last)
-			{				
-				for (difference_type dist = ft::distance(first, last); dist; dist--)
+			{
+				while (first != last)
 					_tree.erase((first++).base());
 			}
 

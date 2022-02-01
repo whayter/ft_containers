@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2022/01/26 11:28:31 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/02/01 11:20:04 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "utility.hpp"
 # include <string>
+
+# define RIGHT 0
+# define LEFT 1
 
 /*--------------------------------------------------------------------------- */
 /*                                                                            */
@@ -81,9 +84,9 @@ namespace ft
 			return value == x.value;
 		}
 
-		bool is_leaf(std::string side)
+		bool is_leaf(int side)
 		{
-			pointer n = (side == "left" ? left : right);
+			pointer n = (side ? left : right);
 			if (&value == &n->value)
 				return true;
 			return false;
@@ -272,6 +275,15 @@ namespace ft
 				_head->right = _head;
 			}
 
+			mapTree(const mapTree& x)
+			: _alloc(x._alloc), _comp(x._comp), _head((_alloc.allocate(1))), _size(x._size)
+			{
+				_alloc.construct(_head, node_type());
+				_head->parent = x._head->parent;
+				_head->left = x._head->left;
+				_head->right = x._head->right;
+			}
+
 			~mapTree()
 			{
 				_alloc.destroy(_head);
@@ -425,7 +437,7 @@ namespace ft
 						to_remove->right->parent = to_remove->right;
 					}	
 				}
-				else if (to_remove->is_leaf("left") && to_remove->is_leaf("right"))
+				else if (to_remove->is_leaf(LEFT) && to_remove->is_leaf(RIGHT))
 				{
 					hook = to_remove->parent;
 					if (_comp(hook->value.first, to_remove->value.first))
@@ -437,7 +449,7 @@ namespace ft
 					else if (to_remove->value.first == _head->left->value.first)
 						_head->left = hook;
 				}	
-				else if (to_remove->is_leaf("left"))
+				else if (to_remove->is_leaf(LEFT))
 				{
 					hook = to_remove->parent;
 					if (_comp(hook->value.first, to_remove->value.first))
@@ -448,7 +460,7 @@ namespace ft
 					if (to_remove->value.first == _head->left->value.first)
 						_head->left = hook;
 				}
-				else if (to_remove->is_leaf("right"))
+				else if (to_remove->is_leaf(RIGHT))
 				{
 					hook = to_remove->parent;
 					if (_comp(hook->value.first, to_remove->value.first))
@@ -542,24 +554,19 @@ namespace ft
 
 				while (1)
 				{
-
-					// std::cout << "  pair = " << pair.first << std::endl;
-					// std::cout << "cursor = " << cursor->value.first << std::endl;	
-					// std::cout << "  comp = " << _comp(pair.first, cursor->value.first) << std::endl;
-				
 					if (pair.first == cursor->value.first)
 						return _head;
 					else if (_comp(pair.first, cursor->value.first))
 					{
-						if (cursor->is_leaf("left"))
+						if (cursor->is_leaf(LEFT))
 							break ;
 						else
 							cursor = cursor->left;
 					}
 					else
 					{
-						if (cursor->is_leaf("right"))
-							break ;
+						if (cursor->is_leaf(RIGHT))
+						    	break ;
 						else
 							cursor = cursor->right;
 					}

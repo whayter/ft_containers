@@ -6,14 +6,13 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 13:03:09 by hwinston          #+#    #+#             */
-/*   Updated: 2021/07/28 12:35:33 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/01/28 11:23:59 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <iomanip>
 #include <deque>
-// #include <chrono>
 
 #ifdef STD
     #include <vector>
@@ -31,6 +30,7 @@
 
 static void intro()
 {
+    std::cout << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << "-------------------------- stack -----------------------" << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
@@ -126,7 +126,6 @@ static void compare(ft::stack<T, CONTAINER>& left, ft::stack<T, CONTAINER>& righ
 int test_stack()
 {
     intro();
-    // auto start = std::chrono::high_resolution_clock::now();
 
     std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << "-------------------- push / pop (1) --------------------" << std::endl;
@@ -201,12 +200,11 @@ int test_stack()
 
     {
         ft::stack<VALUE_TYPE> stack_1;
-        ft::stack<VALUE_TYPE> stack_2;
         stack_1.push(1);
         stack_1.push(2);
         stack_1.push(3);
         stack_1.push(4);
-        stack_2 = stack_1;
+        ft::stack<VALUE_TYPE> stack_2(stack_1);
         std::cout << "--- stack_1:" << std::endl;
         get_info(stack_1);
         get_content(stack_1);
@@ -222,8 +220,7 @@ int test_stack()
     
     {
         ft::stack<VALUE_TYPE> stack_1;
-        ft::stack<VALUE_TYPE> stack_2;
-        stack_2 = stack_1;
+        ft::stack<VALUE_TYPE> stack_2(stack_1);
         std::cout << "--- stack_1:" << std::endl;
         std::cout << "empty : " << stack_1.empty() << std::endl;
         get_content(stack_1);
@@ -304,10 +301,5 @@ int test_stack()
         get_content(stack); 
     }
 
-    // auto stop = std::chrono::high_resolution_clock::now();
-    // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    // std::cout << "Time taken by function: "
-    //      << duration.count() << " microseconds" << std::endl;
-         
     return 0;
 }

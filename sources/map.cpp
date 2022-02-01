@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 13:03:09 by hwinston          #+#    #+#             */
-/*   Updated: 2022/01/19 17:48:56 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/02/01 11:14:53 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <iomanip>
 #include <string>
 #include <list>
-// #include <chrono>
 
 #ifdef STD
     #include <map>
@@ -35,6 +34,7 @@ typedef ft::map<const VALUE_TYPE_1, VALUE_TYPE_2> map_type;
 
 static void intro()
 {
+    std::cout << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << "--------------------------- map ------------------------" << std::endl;
     std::cout << "--------------------------------------------------------" << std::endl;
@@ -61,14 +61,8 @@ static void get_access(map_type& map)
     std::cout << "  begin: " << map.begin()->first;
     std::cout << " => " << map.begin()->second << std::endl;
 
-    // std::cout << "    end: " << map.end()->first;
-    // std::cout << " => " << map.end()->second << std::endl;
-
     std::cout << " rbegin: " << map.rbegin()->first;
     std::cout << " => " << map.rbegin()->second << std::endl;
-
-    // std::cout << "   rend: " << map.rend()->first;
-    // std::cout << " => " << map.rend()->second << std::endl;
 }
 
 static void get_content(map_type& map)
@@ -119,7 +113,6 @@ static void	cmp(const MAP &lhs, const MAP &rhs)
 int test_map()
 {
     intro();
-    // auto start = std::chrono::high_resolution_clock::now();
 
     std::cout << "--------------------------------------------------------" << std::endl;
     std::cout << "---------------- empty map constructor -----------------" << std::endl;
@@ -911,11 +904,18 @@ int test_map()
         cmp(mp1, mp2); // 6
         cmp(mp2, mp1); // 7
     }
+
+    std::cout << std::endl;
+    std::cout << "--------------------------------------------------------" << std::endl;
+    std::cout << "------------------------ hard 5 ------------------------" << std::endl; 
+    std::cout << std::endl;
     
-    // auto stop = std::chrono::high_resolution_clock::now();
-    // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-    // std::cout << "Time taken by function: "
-    //      << duration.count() << " microseconds" << std::endl;
+    {
+        ft::map<int, int> mp1;
+        for (int i = 0; i < 10000; ++i)
+		    mp1.insert(ft::make_pair(rand(), rand()));
+        ft::map<int, int> mp2 = mp1;
+    }
     
     return 0;
 }

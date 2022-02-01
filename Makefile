@@ -22,13 +22,12 @@ vpath %.hpp $(INC_DIR)
 OBJ = $(addprefix  $(OBJ_DIR)/,$(SRC:%.cpp=%.o))
 vpath %.cpp $(SRC_DIR)
 
+CXX = clang++
 IFLAGS = $(foreach inc, $(INC_DIR),-I$(inc))
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-Wno-c++11-extensions
-
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-g -fsanitize=address -fstandalone-debug
 ifdef STD
 CXXFLAGS += -D STD=1
 endif
-
 
 STRT_STYLE = \033[0;32m
 END_STYLE = \033[0m
@@ -37,11 +36,11 @@ all: $(NAME)
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
-	@echo "$(STRT_STYLE)Compiling...$(END_STYLE)"
-	$(CXX) $(CXXFLAGS) $(IFLAGS) $(OBJ) -o $@
+	@echo "$(STRT_STYLE)Compiling $@...$(END_STYLE)"
+	@$(CXX) $(CXXFLAGS) $(IFLAGS) $(OBJ) -o $@
 	@echo "$(STRT_STYLE)Done.$(END_STYLE)"
 
 test:
