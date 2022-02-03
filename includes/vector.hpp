@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 11:12:39 by hwinston          #+#    #+#             */
-/*   Updated: 2022/01/28 11:18:10 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:56:46 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,9 +293,7 @@ namespace ft
 				InputIterator>::type* = NULL)
 			: _alloc(alloc)
 			{
-				// _size = *last - *first;
 				_size = ft::distance(first, last);
-
 				_container = _alloc.allocate(_size);
 				_capacity = _size;
 				for (size_type i = 0; i < _size; i++, first++)

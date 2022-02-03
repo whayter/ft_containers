@@ -24,7 +24,7 @@ vpath %.cpp $(SRC_DIR)
 
 CXX = clang++
 IFLAGS = $(foreach inc, $(INC_DIR),-I$(inc))
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 #-g -fsanitize=address -fstandalone-debug
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g -fsanitize=address -fstandalone-debug
 ifdef STD
 CXXFLAGS += -D STD=1
 endif
@@ -36,11 +36,11 @@ all: $(NAME)
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(OBJ_DIR)
-	@$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
 	@echo "$(STRT_STYLE)Compiling $@...$(END_STYLE)"
-	@$(CXX) $(CXXFLAGS) $(IFLAGS) $(OBJ) -o $@
+	$(CXX) $(CXXFLAGS) $(IFLAGS) $(OBJ) -o $@
 	@echo "$(STRT_STYLE)Done.$(END_STYLE)"
 
 test:

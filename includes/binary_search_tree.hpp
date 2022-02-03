@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2022/02/01 11:20:04 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:58:58 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 /*--------------------------------------------------------------------------- */
 /*                                                                            */
-/*                        ----- head of tree ------                           */
+/*                          ----- tree head ------                            */
 /*                                                                            */                                                                     
 /*         			head						  min						  */
 /*					  |							    |						  */
@@ -233,24 +233,24 @@ namespace ft
 	/* ---------------------------------------------------------------------- */
 	/* --- mapTree class ---------------------------------------------------- */
 
-	template <	class Key, class T, class Alloc, class Compare = std::less<Key>,
-				class Pair = ft::pair<const Key, T>, class Node = ft::mapNode<Pair> >
+	template <	class Key, class T, class Alloc = std::allocator<ft::pair<const Key, T> >,
+				class Compare = std::less<Key> >
 	class mapTree
 	{
 		/* --- member types ------------------------------------------------- */
 
 		public:
 
-			typedef Key													key_type;
-			typedef T   												mapped_type;
-			typedef Pair												value_type;
-			typedef Node												node_type;
-			typedef Compare												key_compare;
-			typedef Alloc												allocator_type;
-			typedef typename Alloc::template rebind<Node>::other		node_allocator_type;
-			typedef typename ft::mapIterator<Pair, Node> 				iterator;
-			typedef typename ft::mapIterator<const Pair, const Node> 	const_iterator;
-			typedef size_t												size_type;
+			typedef Key															key_type;
+			typedef T   														mapped_type;
+			typedef typename ft::pair<const Key, T>								value_type;
+			typedef typename ft::mapNode<value_type>							node_type;
+			typedef Compare														key_compare;
+			typedef Alloc														allocator_type;
+			typedef typename Alloc::template rebind<node_type>::other			node_allocator_type;
+			typedef typename ft::mapIterator<value_type, node_type> 			iterator;
+			typedef typename ft::mapIterator<const value_type, const node_type> const_iterator;
+			typedef size_t														size_type;
 		
 		/* --- member variables --------------------------------------------- */
 
@@ -276,16 +276,30 @@ namespace ft
 			}
 
 			mapTree(const mapTree& x)
-			: _alloc(x._alloc), _comp(x._comp), _head((_alloc.allocate(1))), _size(x._size)
+			: _alloc(x._alloc), _comp(x._comp), _head((_alloc.allocate(1)))
 			{
 				_alloc.construct(_head, node_type());
-				_head->parent = x._head->parent;
-				_head->left = x._head->left;
-				_head->right = x._head->right;
+				_head->parent = NULL;
+				_head->left = _head;
+				_head->right = _head;
+				if (x._head->parent)
+            		_head->parent = _recursiveCopy(x);
+			}
+
+			mapTree& operator=(const mapTree& x)
+			{
+				if (this != &x)
+				{
+					this->clear();
+					if (x.root())
+            		_head->parent = _recursiveCopy(x);
+				}
+				return *this;
 			}
 
 			~mapTree()
 			{
+				this->clear();
 				_alloc.destroy(_head);
 				_alloc.deallocate(_head, 1);
 			}
@@ -395,6 +409,15 @@ namespace ft
 				}
 				_size++;
 				return ft::make_pair(iterator(new_node, _head), true);
+			}
+
+			void clear()
+			{
+				_erase_all(this->root());
+				_size = 0;
+				_head->left = _head;
+				_head->right = _head;
+				_head->parent = NULL;
 			}
 
 			void erase(node_type* to_remove)
@@ -586,6 +609,40 @@ namespace ft
 				while (root->right != root)
 					root = root->right;
 				return root;
+			}
+
+			node_type* _copy_node(node_type* root, node_type* parent = NULL,  node_type* x_parent = NULL)
+			{
+				if (root == x_parent)
+					return parent;
+				node_type* new_node = _alloc.allocate(1);
+				_alloc.construct(new_node, root->value);
+				new_node->parent = parent;
+				new_node->left = _copy_node(root->left, new_node, root);
+				new_node->right = _copy_node(root->right, new_node, root);
+				return new_node;
+			}
+
+			node_type* _recursiveCopy(const mapTree& x)
+			{
+				node_type* root = _copy_node(x.root());
+				this->_size = x._size;
+				_head->left = _leftmost(root);
+				_head->right = _rightmost(root);
+				root->parent = root;
+				return root;
+			}
+
+			void _erase_all(node_type* n, node_type* parent = NULL)
+			{
+				if (n == parent)
+					return ;
+				node_type* l = n->left;
+				node_type* r = n->right;
+				_alloc.destroy(n);
+				_alloc.deallocate(n, 1);
+				_erase_all(l, n);
+				_erase_all(r, n);
 			}
 	};
 };

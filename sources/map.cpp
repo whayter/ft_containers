@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/18 13:03:09 by hwinston          #+#    #+#             */
-/*   Updated: 2022/02/01 11:14:53 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:41:51 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -914,7 +914,14 @@ int test_map()
         ft::map<int, int> mp1;
         for (int i = 0; i < 10000; ++i)
 		    mp1.insert(ft::make_pair(rand(), rand()));
-        ft::map<int, int> mp2 = mp1;
+        std::cout << "mp1 size: " << mp1.size() << std::endl;
+        
+        // mp1.clear();
+        // std::cout << "mp1 size: " << mp1.size() << std::endl;
+        
+        ft::map<int, int> mp2(mp1);
+        // ft::map<int, int> mp2 = mp1;
+        std::cout << "mp2 size: " << mp2.size() << std::endl;
     }
     
     return 0;

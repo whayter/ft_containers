@@ -93,7 +93,7 @@ $(BUILD_DIR)/$(NAME): $(OBJ)
 	@printf "$(_GREEN)Compiled : $(_MAGENTA)$(NAME)$(_R)\n"
 
 run:  $(BUILD_DIR)/$(NAME)
-	@./$(NAME)
+	./$(BUILD_DIR)/$(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR) output_valgrind
