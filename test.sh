@@ -25,10 +25,6 @@ diff -s out/ft_containers.txt out/std_containers.txt
 
 log "ft_container time execution:"
 execute_speed_test ./ft_containers
-execute_speed_test ./ft_containers
-execute_speed_test ./ft_containers
 
 log "std_container time execution:"
-execute_speed_test ./std_containers
-execute_speed_test ./std_containers
 execute_speed_test ./std_containers

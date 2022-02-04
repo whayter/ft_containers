@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 09:46:06 by hwinston          #+#    #+#             */
-/*   Updated: 2022/02/03 14:48:57 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/02/04 09:28:10 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,7 +326,6 @@ namespace ft
 			allocator_type get_allocator() const
 			{
 				return _tree.get_allocator();
-				// return _alloc;
 			}
 	};
 	

@@ -36,11 +36,11 @@ all: $(NAME)
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) $(IFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
 	@echo "$(STRT_STYLE)Compiling $@...$(END_STYLE)"
-	$(CXX) $(CXXFLAGS) $(IFLAGS) $(OBJ) -o $@
+	@$(CXX) $(CXXFLAGS) $(IFLAGS) $(OBJ) -o $@
 	@echo "$(STRT_STYLE)Done.$(END_STYLE)"
 
 test:

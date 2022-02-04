@@ -811,7 +811,6 @@ TEMPLATE_TEST_CASE( "vector - non-member - swap", "[vector][non-member][swap][le
 	}
 }
 
-
 // make check && valgrind --leak-check=full --show-leak-kinds=all --show-reachable=yes --track-origins=yes ./build/tests '-s [leak]'
 // or just:
 // cd tests && make valgrind
@@ -991,5 +990,4 @@ TEST_CASE( "vector - destruction - Having leaks here, mean objects are not destr
 		REQUIRE(vec.capacity() == 2);
 		vec.insert(vec.begin(), array, array +  sizeof(array) / sizeof(IsLeaky));
 	}
-
 }

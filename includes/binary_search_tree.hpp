@@ -6,7 +6,7 @@
 /*   By: hwinston <hwinston@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/08 16:12:09 by hwinston          #+#    #+#             */
-/*   Updated: 2022/02/03 16:58:58 by hwinston         ###   ########.fr       */
+/*   Updated: 2022/02/04 09:24:26 by hwinston         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -611,7 +611,7 @@ namespace ft
 				return root;
 			}
 
-			node_type* _copy_node(node_type* root, node_type* parent = NULL,  node_type* x_parent = NULL)
+			node_type* _copy_node(node_type* root, node_type* parent = NULL, node_type* x_parent = NULL)
 			{
 				if (root == x_parent)
 					return parent;
